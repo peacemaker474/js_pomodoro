@@ -1,6 +1,8 @@
 ## Javascript Pomodoro Clone Coding
 
-- Google Chrome Extensions (https://chrome.google.com/webstore/detail/focus-to-do-pomodoro-time/ngceodoilcgpmkijopinlkmohnfifjfb?hl=ko)
+- Google Chrome Extensions 
+    
+    (https://chrome.google.com/webstore/detail/focus-to-do-pomodoro-time/ngceodoilcgpmkijopinlkmohnfifjfb?hl=ko)
 
 ## 기능
     1. 서버와 비슷한 환경을 구축하여, 회원가입 및 로그인 기능 구현 ⏩
