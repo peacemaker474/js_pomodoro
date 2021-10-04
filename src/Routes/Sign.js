@@ -1,15 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
+import mainImage from '../assets/mainImage.jpg';
+
+const BackImage = styled.div`
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 0;
+    background-image: url(${mainImage});
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+`;
 
 const Container = styled.section`
     width: 50rem;
     height: 60rem;
     position: absolute;
-    left: 50%;
-    top:50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid rgb(10, 10, 10);
+    right: 2%;
+    top:5%;
     border-radius: 10px;
+    z-index: 1;
+    color: white;
 `;
 const SignWrapper = styled.div`
     width: 95%;
@@ -49,9 +60,18 @@ const Label = styled.label`
 `;
 
 const SignInput = styled.input`
+    all:unset;
     width: 80%;
     height: 35px;
-    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, .5);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    ::placeholder{
+        color: white;
+    }
+    font-size: 1.2rem;
 `;
 
 const SignBtn = styled.button`
@@ -66,22 +86,24 @@ const SignBtn = styled.button`
 `;
 
 const Join = () => (
-    <Container>
-        <SignWrapper>
-            <SignTitle>회원가입</SignTitle>
-            <SignForm>
-                <Label>이름</Label>
-                <SignInput type="text" placeholder="이름을 입력해주세요." />
-                <Label>이메일</Label>
-                <SignInput type="email" placeholder="이메일을 입력해주세요." />
-                <Label>비밀번호</Label>
-                <SignInput type="password" placeholder="비밀번호를 입력해주세요." />
-                <Label>비밀번호 재입력</Label>
-                <SignInput type="password" placeholder="비밀번호를 다시 입력해주세요." />
-                <SignBtn>회원가입</SignBtn>
-            </SignForm>
-        </SignWrapper>
-    </Container>
+    <BackImage>
+        <Container>
+            <SignWrapper>
+                <SignTitle>회원가입</SignTitle>
+                <SignForm>
+                    <Label>이름</Label>
+                    <SignInput type="text" placeholder="이름을 입력해주세요." />
+                    <Label>이메일</Label>
+                    <SignInput type="email" placeholder="이메일을 입력해주세요." />
+                    <Label>비밀번호</Label>
+                    <SignInput type="password" placeholder="비밀번호를 입력해주세요." />
+                    <Label>비밀번호 재입력</Label>
+                    <SignInput type="password" placeholder="비밀번호를 다시 입력해주세요." />
+                    <SignBtn>회원가입</SignBtn>
+                </SignForm>
+            </SignWrapper>
+        </Container>
+    </BackImage>
 );
 
 export default Join;
