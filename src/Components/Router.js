@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from '../Routes/Login';
-import Join from '../Routes/Join';
+import Sign from '../Routes/Sign';
 
 export default () => (
     <Router>
         <Switch>
             <Route path="/" exact component={Login} />
-            <Route path="/join" exact component={Join} />
+            <Route path="/sign" exact component={Sign} />
         </Switch>
     </Router>
 );

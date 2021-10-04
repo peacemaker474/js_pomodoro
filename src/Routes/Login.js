@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
-const Container = styled.div`
+const Container = styled.main`
     width: 500px;
     height: 500px;
     margin: 0 auto;
@@ -13,7 +13,7 @@ const Container = styled.div`
     border: 1px solid black;
 `;
 
-const LoginBox = styled.div`
+const LoginWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +28,7 @@ const LoginTitle = styled.h1`
     text-align: center;
 `;
 
-const Form = styled.form`
+const LoginForm = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,33 +37,50 @@ const Form = styled.form`
     height: 40%;
     gap: 20px;
 `;
-const Id = styled.input``;
+const LoginId = styled.input``;
 const Label = styled.label`
     flex-direction: row;
     font-size: 1.5rem;
 `;
-const PassWord = styled.input``;
+const LoginPwd = styled.input``;
 const LoginBtn = styled.button``;
-const LoginUl = styled.ul``;
-const LoginMenu = styled.li``;
+const SubLists = styled.ul`
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+`;
+const List = styled.li``;
+const SLink = styled(Link)`
+    text-decoration: none;
+    color: rgb(10, 10, 10);
+    font-size: 1.3rem;
+`;
 
 const Login = () => (
     <Container>
-        <LoginBox>
+        <LoginWrapper>
             <LoginTitle>로그인</LoginTitle>
-            <Form>
+            <LoginForm>
                 <Label>아이디</Label>
-                <Id type="text" placeholder="아이디를 입력하세요."/>
+                <LoginId type="text" placeholder="아이디를 입력하세요."/>
                 <Label>비밀번호</Label>
-                <PassWord type="password"/>
+                <LoginPwd type="password"/>
                 <LoginBtn>로그인</LoginBtn>
-            </Form>
-            <LoginUl>
-                <LoginMenu>
-                    <Link to="/join"> 회원가입 </Link>
-                </LoginMenu>
-            </LoginUl>
-        </LoginBox>
+            </LoginForm>
+            <SubLists>
+                <List>
+                    <SLink to="/"> 아이디 찾기 </SLink>
+                </List>
+                <List>
+                    <SLink to="/"> 비밀번호 찾기 </SLink>
+                </List>
+                <List>
+                    <SLink to="/sign"> 회원가입 </SLink>
+                </List>
+            </SubLists>
+        </LoginWrapper>
     </Container>  
 );
 
