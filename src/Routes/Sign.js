@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import styled from 'styled-components';
 import mainImage from '../assets/mainImage.jpg';
 import { ListContext } from '../Components/Router';
@@ -89,16 +89,25 @@ const SignBtn = styled.button`
 
 const Sign = () => {
     const {userData, setUserData, signCheck, setSignCheck} = useContext(ListContext);
+    const [vaildEmail, setVaildEmail] = useState(false);
+    const [vaildName, setVaildName] = useState(false);
+    const [vaildPwd, setVaildPwd] = useState(false);
+    const emailCheck = useRef(null);
+    const nameCheck = useRef(null);
+    const pwdCheck = useRef(null);
     
     const onSubmit = async (evt) => {
         evt.preventDefault();
+        const nameRegex = /^[가-힣]{2,5}$/; // 이름 2~5글자로 제한하는 정규표현식
+        const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
         
-        try {
-            
-        } catch (e) {
-            console.log(e);
-        } finally {
-
+        nameRegex.test(nameCheck.current.value) ? setVaildName(true) : nameCheck.current.focus();
+        emailRegex.test(emailCheck.current.value) ? setVaildEmail(true) : emailCheck.current.focus();
+        pwdRegex.test(pwdCheck.current.value) ? setVaildPwd(true) : pwdCheck.current.focus();
+        
+        if (vaildName && vaildEmail && vaildPwd){
+            console.log("확인");
         }
     }
 
@@ -109,11 +118,11 @@ const Sign = () => {
                     <SignTitle>회원가입</SignTitle>
                     <SignForm onSubmit={onSubmit}>
                         <Label>이름</Label>
-                        <SignInput type="text" placeholder="이름을 입력해주세요." />
+                        <SignInput type="text" placeholder="이름을 입력해주세요." ref={nameCheck}/>
                         <Label>이메일</Label>
-                        <SignInput type="email" placeholder="이메일을 입력해주세요." />
+                        <SignInput type="email" placeholder="이메일을 입력해주세요." ref={emailCheck}/>
                         <Label>비밀번호</Label>
-                        <SignInput type="password" placeholder="비밀번호를 입력해주세요." />
+                        <SignInput type="password" placeholder="비밀번호를 입력해주세요." ref={pwdCheck}/>
                         <Label>비밀번호 재입력</Label>
                         <SignInput type="password" placeholder="비밀번호를 다시 입력해주세요." />
                         <SignBtn>회원가입</SignBtn>
