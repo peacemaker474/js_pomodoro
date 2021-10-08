@@ -88,26 +88,34 @@ const SignBtn = styled.button`
 `;
 
 const Sign = () => {
-    const {userData, setUserData, signCheck, setSignCheck} = useContext(ListContext);
+    const {userData, setUserData} = useContext(ListContext);
     const [vaildEmail, setVaildEmail] = useState(false);
     const [vaildName, setVaildName] = useState(false);
     const [vaildPwd, setVaildPwd] = useState(false);
     const emailCheck = useRef(null);
     const nameCheck = useRef(null);
     const pwdCheck = useRef(null);
+    const rePwdCheck = useRef(null);
     
-    const onSubmit = async (evt) => {
+    const onSubmit = evt => {
         evt.preventDefault();
         const nameRegex = /^[가-힣]{2,5}$/; // 이름 2~5글자로 제한하는 정규표현식
-        const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-        const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+        const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 확인하는 정규표현식
+        const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/; // 비밀번호 영문, 숫자, 특수문자, 8자리 이상 정규표현식
         
         nameRegex.test(nameCheck.current.value) ? setVaildName(true) : nameCheck.current.focus();
         emailRegex.test(emailCheck.current.value) ? setVaildEmail(true) : emailCheck.current.focus();
         pwdRegex.test(pwdCheck.current.value) ? setVaildPwd(true) : pwdCheck.current.focus();
-        
-        if (vaildName && vaildEmail && vaildPwd){
-            console.log("확인");
+        if (pwdCheck.current.value !== rePwdCheck.current.value) rePwdCheck.current.focus();
+        if (vaildName && vaildEmail && vaildPwd && (pwdCheck.current.value === rePwdCheck.current.value)){
+            let copy = {...userData};
+            copy = {
+                name: nameCheck.current.value,
+                email: emailCheck.current.value,
+                password: pwdCheck.current.value
+            };
+            setUserData(copy);
+            console.log("확인"); // 데이터를 서버로 전송하면 됩니다.
         }
     }
 
@@ -124,7 +132,7 @@ const Sign = () => {
                         <Label>비밀번호</Label>
                         <SignInput type="password" placeholder="비밀번호를 입력해주세요." ref={pwdCheck}/>
                         <Label>비밀번호 재입력</Label>
-                        <SignInput type="password" placeholder="비밀번호를 다시 입력해주세요." />
+                        <SignInput type="password" placeholder="비밀번호를 다시 입력해주세요." ref={rePwdCheck}/>
                         <SignBtn>회원가입</SignBtn>
                     </SignForm>
                 </SignWrapper>

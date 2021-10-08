@@ -11,13 +11,10 @@ export default () => {
         email: "",
         password: "",
     });
-    const [signCheck, setSignCheck] = useState(false);
     
     const store = {
         userData,
         setUserData,
-        signCheck,
-        setSignCheck
     };
 
     return (
