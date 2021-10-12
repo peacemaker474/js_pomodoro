@@ -105,7 +105,10 @@ const Sign = () => {
     
     const onSubmit = async (evt) => {
         evt.preventDefault();
-        
+        /* 
+            이름, 이메일, 비밀번호 확인하는 영역으로 모두 통과될 시, useState의 값을 변경한다.
+            전체적인 정규표현식은 전역 변수로 빼서 사용한다.
+        */
         if (isEmpty(nameCheck.current.value) && !nameRegex.test(nameCheck.current.value)) {
             alert("이름은 2~5글자만 입력해주세요.");
             nameCheck.current.value = "";
