@@ -1,9 +1,8 @@
-import React, {useContext, useRef, useState} from 'react';
-import {signUp} from '../services/auth';
+import React, {useRef, useState} from 'react';
+import { auth, createUserWithEmailAndPassword } from '../services/firebase';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
 import mainImage from '../assets/mainImage.jpg';
-import { ListContext } from '../Components/Router';
 
 const nameRegex = /^[가-힣]{2,5}$/; // 이름 2~5글자로 제한하는 정규표현식
 const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 확인하는 정규표현식
@@ -94,7 +93,6 @@ const SignBtn = styled.button`
 `;
 
 const Sign = () => {
-    const {userData, setUserData} = useContext(ListContext);
     const [vaildEmail, setVaildEmail] = useState(false);
     const [vaildName, setVaildName] = useState(false);
     const [vaildPwd, setVaildPwd] = useState(false);
@@ -135,15 +133,11 @@ const Sign = () => {
         }
         
         if (vaildName && vaildEmail && vaildPwd && (pwdCheck.current.value === rePwdCheck.current.value)){
-            // let copy = {...userData};
-            // copy = {
-            //     name: nameCheck.current.value,
-            //     email: emailCheck.current.value,
-            //     password: pwdCheck.current.value
-            // };
-            // setUserData(copy);
             try {
-                await signUp(emailCheck.current.value, pwdCheck.current.value);
+                await createUserWithEmailAndPassword(auth, emailCheck.current.value, pwdCheck.current.value)
+                .then((userCredential) => {
+                    console.log(userCredential);
+                })
             } catch (error) {
                 console.log(error);
             }
