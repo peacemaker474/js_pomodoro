@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import {auth, signInWithEmailAndPassword} from '../services/firebase';
 
 const Container = styled.main`
     width: 500px;
@@ -58,30 +59,47 @@ const SLink = styled(Link)`
     font-size: 1.3rem;
 `;
 
-const Login = () => (
-    <Container>
-        <LoginWrapper>
-            <LoginTitle>로그인</LoginTitle>
-            <LoginForm>
-                <Label>아이디</Label>
-                <LoginId type="text" placeholder="아이디를 입력하세요."/>
-                <Label>비밀번호</Label>
-                <LoginPwd type="password"/>
-                <LoginBtn>로그인</LoginBtn>
-            </LoginForm>
-            <SubLists>
-                <List>
-                    <SLink to="/"> 아이디 찾기 </SLink>
-                </List>
-                <List>
-                    <SLink to="/"> 비밀번호 찾기 </SLink>
-                </List>
-                <List>
-                    <SLink to="/sign"> 회원가입 </SLink>
-                </List>
-            </SubLists>
-        </LoginWrapper>
-    </Container>  
-);
+const Login = () => {
+    const email = useRef(null);
+    const password = useRef(null);
+
+    const onSubmit = async (evt) => {
+        evt.preventDefault();
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+            console.log(userCredential);
+            alert("로그인을 하였습니다.");
+        })
+        .catch((err) => {
+            console.log(err);
+            alert("로그인의 실패했습니다. 이메일이 올바르지 않거나, 비밀번호가 틀렸습니다.")
+        })
+    }
+    return (
+        <Container>
+            <LoginWrapper>
+                <LoginTitle>로그인</LoginTitle>
+                <LoginForm onSubmit={onSubmit}>
+                    <Label>아이디</Label>
+                    <LoginId type="text" placeholder="아이디를 입력하세요." ref={email}/>
+                    <Label>비밀번호</Label>
+                    <LoginPwd type="password" ref={password}/>
+                    <LoginBtn>로그인</LoginBtn>
+                </LoginForm>
+                <SubLists>
+                    <List>
+                        <SLink to="/"> 아이디 찾기 </SLink>
+                    </List>
+                    <List>
+                        <SLink to="/"> 비밀번호 찾기 </SLink>
+                    </List>
+                    <List>
+                        <SLink to="/sign"> 회원가입 </SLink>
+                    </List>
+                </SubLists>
+            </LoginWrapper>
+        </Container>  
+    )
+};
 
 export default Login;
