@@ -1,6 +1,7 @@
-import firebase from "firebase/compat/app";
+import { initializeApp } from "@firebase/app";
+import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 
-// firebase 설정과 관련된 개인 정보
+// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDj2e7k0SkxPpfKDj_SGab0vk6oa7qv4G0",
     authDomain: "my-map-food.firebaseapp.com",
@@ -10,6 +11,9 @@ const firebaseConfig = {
     appId: "1:281487609538:web:1530be516c01346ca5755b"
 };
 
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
 
-export const auth = firebase.auth;
+export {auth, createUserWithEmailAndPassword};
+export default app;
