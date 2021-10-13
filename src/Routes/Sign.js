@@ -1,4 +1,5 @@
 import React, {useRef, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import { auth, createUserWithEmailAndPassword } from '../services/firebase';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
@@ -100,6 +101,7 @@ const Sign = () => {
     const nameCheck = useRef(null);
     const pwdCheck = useRef(null);
     const rePwdCheck = useRef(null);
+    const history = useHistory();
     
     const onSubmit = async (evt) => {
         evt.preventDefault();
@@ -137,6 +139,7 @@ const Sign = () => {
                 await createUserWithEmailAndPassword(auth, emailCheck.current.value, pwdCheck.current.value)
                 .then((userCredential) => {
                     console.log(userCredential);
+                    history.push("/");
                 })
             } catch (error) {
                 console.log(error);
