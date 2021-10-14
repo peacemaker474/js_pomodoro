@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
-import {useHistory} from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword } from '../services/firebase';
+import { useHistory } from 'react-router-dom';
+import { auth, createUserWithEmailAndPassword, getFirestore, collection, getDocs} from '../services/firebase';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
 import mainImage from '../assets/mainImage.jpg';
@@ -8,6 +8,16 @@ import mainImage from '../assets/mainImage.jpg';
 const nameRegex = /^[가-힣]{2,5}$/; // 이름 2~5글자로 제한하는 정규표현식
 const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 확인하는 정규표현식
 const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/; // 비밀번호 영문, 숫자, 특수문자, 8자리 이상 정규표현식
+let emailData = {};
+const db = getFirestore();
+
+const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+        emailData = Object.values(doc.data());
+    });
+}
+getData();
 
 const BackImage = styled.div`
     width: 100vw;
