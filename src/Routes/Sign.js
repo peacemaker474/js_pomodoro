@@ -1,6 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useContext} from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword, getFirestore, collection, getDocs} from '../services/firebase';
+import { auth, createUserWithEmailAndPassword, addDoc, getFirestore, collection } from '../services/firebase';
+import {ListContext} from '../Components/Router';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
 import mainImage from '../assets/mainImage.jpg';
@@ -8,16 +9,6 @@ import mainImage from '../assets/mainImage.jpg';
 const nameRegex = /^[가-힣]{2,5}$/; // 이름 2~5글자로 제한하는 정규표현식
 const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 확인하는 정규표현식
 const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/; // 비밀번호 영문, 숫자, 특수문자, 8자리 이상 정규표현식
-let emailData = {};
-const db = getFirestore();
-
-const getData = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    querySnapshot.forEach((doc) => {
-        emailData = Object.values(doc.data());
-    });
-}
-getData();
 
 const BackImage = styled.div`
     width: 100vw;
@@ -112,6 +103,14 @@ const Sign = () => {
     const pwdCheck = useRef(null);
     const rePwdCheck = useRef(null);
     const history = useHistory();
+    const {emailData} = useContext(ListContext);
+
+    const checkOverlapEmail = () => {
+        const findEmail = emailData.filter(email => email === emailCheck.current.value);
+        console.log(findEmail);
+        console.log(emailData);
+        return findEmail;
+    }
     
     const onSubmit = async (evt) => {
         evt.preventDefault();
@@ -138,6 +137,11 @@ const Sign = () => {
             alert("비밀번호가 서로 일치하지 않습니다. 다시 입력해주세요.");
             rePwdCheck.current.value = "";
             rePwdCheck.current.focus();
+        }
+        if (checkOverlapEmail().length === 1) {
+            alert("이메일이 이미 있으니, 다시 입력해주세요.");
+            emailCheck.current.value = "";
+            emailCheck.current.focus();
         } else {
             setVaildEmail(true);
             setVaildName(true);
@@ -146,11 +150,15 @@ const Sign = () => {
         
         if (vaildName && vaildEmail && vaildPwd && (pwdCheck.current.value === rePwdCheck.current.value)){
             try {
+                const db = getFirestore();
+                await addDoc(collection(db, "user"), {
+                    email : emailCheck.current.value,
+                });
                 await createUserWithEmailAndPassword(auth, emailCheck.current.value, pwdCheck.current.value)
                 .then((userCredential) => {
                     console.log(userCredential);
                     history.push("/");
-                })
+                });
             } catch (error) {
                 console.log(error);
             }
