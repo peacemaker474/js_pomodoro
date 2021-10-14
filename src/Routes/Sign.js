@@ -108,8 +108,6 @@ const Sign = () => {
     // 이메일 중복 체크를 위해 사용할 함수
     const checkOverlapEmail = () => {
         const findEmail = emailData.filter(email => email === emailCheck.current.value);
-        console.log(findEmail);
-        console.log(emailData);
         return findEmail;
     }
     
