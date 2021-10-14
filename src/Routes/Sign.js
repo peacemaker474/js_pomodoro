@@ -105,6 +105,7 @@ const Sign = () => {
     const history = useHistory();
     const {emailData} = useContext(ListContext);
 
+    // 이메일 중복 체크를 위해 사용할 함수
     const checkOverlapEmail = () => {
         const findEmail = emailData.filter(email => email === emailCheck.current.value);
         console.log(findEmail);
@@ -151,12 +152,13 @@ const Sign = () => {
         if (vaildName && vaildEmail && vaildPwd && (pwdCheck.current.value === rePwdCheck.current.value)){
             try {
                 const db = getFirestore();
+                // 데이터베이스에 추가하는 부분
                 await addDoc(collection(db, "user"), {
                     email : emailCheck.current.value,
                 });
+                // 회원가입 하는 부분
                 await createUserWithEmailAndPassword(auth, emailCheck.current.value, pwdCheck.current.value)
                 .then((userCredential) => {
-                    console.log(userCredential);
                     history.push("/");
                 });
             } catch (error) {
