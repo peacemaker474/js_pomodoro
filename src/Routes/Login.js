@@ -35,6 +35,7 @@ const LoginForm = styled.form`
     height: 100%;
     gap: 20px;
 `;
+
 const LoginInput = styled.input`
     width: 55%;
     height: 50px;
@@ -43,11 +44,13 @@ const LoginInput = styled.input`
     padding-left: 15px;
     box-sizing: border-box;
 `;
+
 const Label = styled.label`
     width: 55%;
     flex-direction: row;
     font-size: 1.5rem;
 `;
+
 const LoginBtn = styled.button`
     width: 55%;
     height: 50px;
@@ -56,6 +59,7 @@ const LoginBtn = styled.button`
     background-color: #FFA931;
     font-size: 1.5rem;
 `;
+
 const SubLists = styled.ul`
     width: 55%;
     height: 10%;
@@ -65,6 +69,7 @@ const SubLists = styled.ul`
     gap: 15px;
     border-top: 1px solid rgba(128, 128, 128, .5);
 `;
+
 const List = styled.li``;
 
 const SignLink = styled(Link)`
@@ -117,7 +122,7 @@ const Login = () => {
                         </List>
                     </SubLists>
                 </LoginForm>
-                <RightWrapper></RightWrapper>
+                <RightWrapper />
         </Container>  
     )
 };
