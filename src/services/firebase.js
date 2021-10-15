@@ -5,12 +5,12 @@ import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDj2e7k0SkxPpfKDj_SGab0vk6oa7qv4G0",
-    authDomain: "my-map-food.firebaseapp.com",
-    projectId: "my-map-food",
-    storageBucket: "my-map-food.appspot.com",
-    messagingSenderId: "281487609538",
-    appId: "1:281487609538:web:1530be516c01346ca5755b"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID
 };
 
 // Initialize Firebase
