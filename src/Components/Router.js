@@ -17,7 +17,7 @@ export default () => {
 
     const store = {
         emailData,
-    }
+    };
 
     return (
         <Router>
