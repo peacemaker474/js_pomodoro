@@ -16,9 +16,11 @@ export default () => {
     getData().then((data) => setEmailData(data));
   }, []);
 
-  const store = {
+
+const store = {
     emailData,
-  };
+};
+
 
   return (
     <Router>
