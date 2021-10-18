@@ -1,6 +1,6 @@
 import React, {useRef, useState, useContext} from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword, addDoc, getFirestore, collection } from '../services/firebase';
+import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc } from '../services/firebase';
 import {ListContext} from '../Components/Router';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
@@ -148,7 +148,7 @@ const Sign = () => {
             try {
                 const db = getFirestore();
                 // 데이터베이스에 추가하는 부분
-                await addDoc(collection(db, "user"), {
+                await setDoc(doc(db, "user", check_name.current.value), {
                     email : check_email.current.value,
                 });
                 // 회원가입 하는 부분
