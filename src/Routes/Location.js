@@ -23,7 +23,6 @@ const Location = () => {
   return (
     <div>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
-      {/* THis is Map Page */}
     </div>
   );
 };
