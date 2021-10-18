@@ -130,19 +130,16 @@ const Login = () => {
           ref={password}
         />
         <PwdLink to="/" color="rgb(10,10,10)">
-          {" "}
-          비밀번호를 잃어버리셨나요?{" "}
+          비밀번호를 잃어버리셨나요?
         </PwdLink>
         <LoginBtn>로그인</LoginBtn>
         <SubLists>
           <List>
             <SignLink to="/sign" color="rgb(10, 10, 10)">
-              {" "}
               계정이 없으신가요?
             </SignLink>
             <SignLink to="/sign" color="#FFA931">
-              {" "}
-              회원가입{" "}
+              회원가입
             </SignLink>
           </List>
         </SubLists>
