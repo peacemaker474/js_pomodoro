@@ -1,13 +1,15 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { auth, signInWithEmailAndPassword } from "../services/firebase";
+import FindModal from "../Components/FindPwdModal";
 import mainImage from "../assets/mainImage.jpg";
 
 const Container = styled.main`
   width: 100vw;
   height: 100vh;
   display: flex;
+  position: relative;
 `;
 
 const RightWrapper = styled.div`
@@ -81,18 +83,26 @@ const SignLink = styled(Link)`
   }
 `;
 
-const PwdLink = styled(Link)`
+const FindPwd = styled.button`
+  all:unset;
   width: 55%;
   text-decoration: none;
   text-align: right;
   font-size: 1.2rem;
+  cursor: pointer;
   color: ${(props) => props.color};
 `;
 
 const Login = () => {
+  const [findPwdModal, setFindPwdModal] = useState(false);
   const email = useRef(null);
   const password = useRef(null);
   const history = useHistory();
+
+  const handleFindPwdModal = evt => {
+    evt.preventDefault();
+    setFindPwdModal(!findPwdModal);
+  }
 
   const onSubmit = async (evt) => {
     evt.preventDefault();
@@ -129,9 +139,9 @@ const Login = () => {
           placeholder="비밀번호를 입력하세요"
           ref={password}
         />
-        <PwdLink to="/" color="rgb(10,10,10)">
+        <FindPwd color="rgb(10,10,10)" onClick={handleFindPwdModal}>
           비밀번호를 잃어버리셨나요?
-        </PwdLink>
+        </FindPwd>
         <LoginBtn>로그인</LoginBtn>
         <SubLists>
           <List>
@@ -145,6 +155,7 @@ const Login = () => {
         </SubLists>
       </LoginForm>
       <RightWrapper />
+      {findPwdModal && <FindModal setFindPwdModal={setFindPwdModal} />}
     </Container>
   );
 };

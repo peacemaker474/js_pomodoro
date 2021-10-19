@@ -1,29 +1,34 @@
-/*global kakao*/
 import React, { useEffect } from "react";
+import styled from 'styled-components';
+import kakaoMap from "../services/kakaoMap";
+
+const Container = styled.main`
+  width: 100vw;
+  height: 100vh;
+  display:flex;
+`;
+
+const FoodLists = styled.aside`
+  width: 25%;
+  height: 100%;
+`;
+const Map = styled.div`
+  width: 74.9%;
+  height: 100%;
+`;
 
 const Location = () => {
   useEffect(() => {
-    var container = document.getElementById("map");
-    var options = {
-      center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
-      level: 3,
-    };
-
-    var map = new kakao.maps.Map(container, options);
-    var markerPosition = new kakao.maps.LatLng(
-      37.365264512305174,
-      127.10676860117488
-    );
-    var marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-    marker.setMap(map);
+    kakaoMap();
   }, []);
 
   return (
-    <div>
-      <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
-    </div>
+    <>
+      <Container>
+        <FoodLists />
+        <Map id="map" />
+      </Container>
+    </>
   );
 };
 

@@ -3,8 +3,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-import { getFirestore, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, setDoc, doc, } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,7 +14,7 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_PROJECT_ID,
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID
+  appId: process.env.REACT_APP_APP_ID,
 };
 
 // Initialize Firebase
@@ -24,6 +25,7 @@ export {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   getFirestore,
   collection,
   getDocs,
