@@ -83,7 +83,7 @@ const SignLink = styled(Link)`
   }
 `;
 
-const FindPwd = styled.button`
+const FindPwd = styled.span`
   all:unset;
   width: 55%;
   text-decoration: none;

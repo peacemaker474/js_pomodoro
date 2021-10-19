@@ -67,14 +67,15 @@ const FindModal = ({setFindPwdModal}) => {
     const [vaildEmail, setVaildEmail] = useState(false);
     const email = useRef(null);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = evt => {
+        evt.preventDefault();
         setFindPwdModal(false);
     }
 
     const onSubmit = evt => {
         evt.preventDefault();
 
-        if (isEmpty(email) && !regex.email.test(email.current.value)){
+        if (isEmpty(email.current.value) && !regex.email.test(email.current.value)){
             alert("이메일 주소를 올바르게 입력하세요");
             email.current.value = "";
             email.current.focus();
