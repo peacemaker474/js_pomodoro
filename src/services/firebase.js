@@ -3,8 +3,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-import { getFirestore, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, setDoc, doc, } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,6 +25,7 @@ export {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   getFirestore,
   collection,
   getDocs,
