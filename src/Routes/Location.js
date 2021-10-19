@@ -1,23 +1,27 @@
 /*global kakao*/
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const Location = () => {
+  const [map, setMap] = useState(null);
   useEffect(() => {
-    var container = document.getElementById("map");
-    var options = {
-      center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
-      level: 3,
-    };
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAOAPI_KEY}&autoload=false`;
+    document.head.appendChild(script);
 
-    var map = new kakao.maps.Map(container, options);
-    var markerPosition = new kakao.maps.LatLng(
-      37.365264512305174,
-      127.10676860117488
-    );
-    var marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-    marker.setMap(map);
+    script.onload = () => {
+      const { kakao } = window;
+      kakao.maps.load(() => {
+        let container = document.getElementById("map");
+        let options = {
+          center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
+          level: 3,
+        };
+
+        const map = new kakao.maps.Map(container, options);
+        setMap(map);
+      });
+    };
   }, []);
 
   return (
