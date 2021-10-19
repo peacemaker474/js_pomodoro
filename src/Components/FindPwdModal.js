@@ -67,7 +67,8 @@ const FindModal = ({setFindPwdModal}) => {
     const [vaildEmail, setVaildEmail] = useState(false);
     const email = useRef(null);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = evt => {
+        evt.preventDefault();
         setFindPwdModal(false);
     }
 
