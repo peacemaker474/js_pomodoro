@@ -1,11 +1,11 @@
 import React, {useRef, useState, useContext} from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc } from '../../services/firebase';
-import {ListContext} from '../../Routers/Router';
+import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc } from 'services/firebase';
+import {ListContext} from 'Routers/Router';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
-import { regex } from '../../services/store';
-import mainImage from '../../assets/mainImage.jpg';
+import { regex } from 'services/store';
+import mainImage from 'assets/mainImage.jpg';
 
 const BackImage = styled.div`
     width: 100vw;
@@ -147,8 +147,9 @@ const Sign = () => {
         if (vaildName && vaildEmail && vaildPwd && (check_password.current.value === check_rePwd.current.value)){
             try {
                 const db = getFirestore();
-                // 데이터베이스에 추가하는 부분
+                // 데이터베이스에 추가하는 부분 (이름과 이메일)
                 await setDoc(doc(db, "user", check_name.current.value), {
+                    name : check_name.current.value,
                     email : check_email.current.value,
                 });
                 // 회원가입 하는 부분
