@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
-import { auth, signInWithEmailAndPassword } from "../../services/firebase";
+import { auth, signInWithEmailAndPassword } from "services/firebase";
 import FindModal from "./FindPwdModal";
-import mainImage from "../../assets/mainImage.jpg";
+import mainImage from "assets/mainImage.jpg";
 
 const Container = styled.main`
   width: 100vw;

@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
-import { regex } from '../../services/store';
-import {auth, sendPasswordResetEmail} from '../../services/firebase';
+import { regex } from 'services/store';
+import {auth, sendPasswordResetEmail} from 'services/firebase';
 
 const Container = styled.section`
     width: 500px;
