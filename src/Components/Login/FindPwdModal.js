@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
-import { regex } from './store';
-import {auth, sendPasswordResetEmail} from '../services/firebase';
+import { regex } from '../../services/store';
+import {auth, sendPasswordResetEmail} from '../../services/firebase';
 
 const Container = styled.section`
     width: 500px;
@@ -99,7 +99,7 @@ const FindModal = ({setFindPwdModal}) => {
                 <FindForm onSubmit={onSubmit}>
                     <FindLabel>비밀번호를 찾고자 하는 이메일을 입력해 주세요.</FindLabel>
                     <FindInput type="email" placeholder="이메일을 입력해주세요." ref={email}/>
-                    <FindButton> 비밀번호 찾기 </FindButton>
+                    <FindButton type="submit"> 비밀번호 찾기 </FindButton>
                 </FindForm>
                 <CloseButton onClick={handleCloseModal}>❌</CloseButton>
             </Container>

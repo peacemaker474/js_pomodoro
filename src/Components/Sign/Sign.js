@@ -1,11 +1,11 @@
 import React, {useRef, useState, useContext} from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc } from '../services/firebase';
-import {ListContext} from '../Components/Router';
+import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc } from '../../services/firebase';
+import {ListContext} from '../../Routers/Router';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
-import { regex } from '../Components/store';
-import mainImage from '../assets/mainImage.jpg';
+import { regex } from '../../services/store';
+import mainImage from '../../assets/mainImage.jpg';
 
 const BackImage = styled.div`
     width: 100vw;

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
-import { auth, signInWithEmailAndPassword } from "../services/firebase";
-import FindModal from "../Components/FindPwdModal";
-import mainImage from "../assets/mainImage.jpg";
+import { auth, signInWithEmailAndPassword } from "../../services/firebase";
+import FindModal from "./FindPwdModal";
+import mainImage from "../../assets/mainImage.jpg";
 
 const Container = styled.main`
   width: 100vw;
@@ -83,7 +83,7 @@ const SignLink = styled(Link)`
   }
 `;
 
-const FindPwd = styled.span`
+const FindPwd = styled.button`
   all:unset;
   width: 55%;
   text-decoration: none;
@@ -139,7 +139,7 @@ const Login = () => {
           placeholder="비밀번호를 입력하세요"
           ref={password}
         />
-        <FindPwd color="rgb(10,10,10)" onClick={handleFindPwdModal}>
+        <FindPwd type="button" color="rgb(10,10,10)" onClick={handleFindPwdModal}>
           비밀번호를 잃어버리셨나요?
         </FindPwd>
         <LoginBtn>로그인</LoginBtn>

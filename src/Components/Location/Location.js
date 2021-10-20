@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from 'styled-components';
-import kakaoMap from "../services/kakaoMap";
+import kakaoMap from "../../services/kakaoMap";
 
 const Container = styled.main`
   width: 100vw;

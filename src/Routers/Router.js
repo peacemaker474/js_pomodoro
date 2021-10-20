@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import getData from "./store";
-import Login from "../Routes/Login";
-import Sign from "../Routes/Sign";
-import Location from "../Routes/Location";
+import getData from "../services/store";
+import Login from "../Components/Login/Login";
+import Sign from "../Components/Sign/Sign";
+import Location from "../Components/Location/Location";
 
 export const ListContext = createContext("");
 
