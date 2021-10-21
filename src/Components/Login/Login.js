@@ -1,9 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { auth, signInWithEmailAndPassword } from "services/firebase";
+import { ListContext } from 'Routers/Router';
 import FindModal from "./FindPwdModal";
 import mainImage from "assets/mainImage.jpg";
+import { isEmpty } from "lodash";
+import { regex } from "services/store";
 
 const Container = styled.main`
   width: 100vw;
@@ -95,9 +98,29 @@ const FindPwd = styled.button`
 
 const Login = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
+  const [vaildLogin, setVaildLogin] = useState(false);
+  const [vaildPassword, setVaildPassword] = useState(false);
   const email = useRef(null);
   const password = useRef(null);
+  const {emailData, userInfo, setUserInfo} = useContext(ListContext);
   const history = useHistory();
+
+  // 이메일이 있는 지 없는지 확인하는 함수
+  const checkEmail = () => {
+    const findEmail = emailData.filter(item => item === email.current.value);
+    return findEmail;
+}
+ // 이메일을 기준으로 유저에 대한 정보를 저장하는 함수
+  const getUserInfo = () => {
+    userInfo.forEach(info => {
+      info.forEach(item => {
+        if (item === email.current.value){
+          setUserInfo(info);
+          return ;
+        }
+      })
+    })
+  }
 
   const handleFindPwdModal = evt => {
     evt.preventDefault();
@@ -106,22 +129,57 @@ const Login = () => {
 
   const onSubmit = async (evt) => {
     evt.preventDefault();
-    signInWithEmailAndPassword(
-      auth,
-      email.current.value,
-      password.current.value
-    )
-      .then((userCredential) => {
-        console.log(userCredential);
-        alert("로그인을 하였습니다.");
-        history.push("/home");
-      })
-      .catch((err) => {
+    /*
+        이메일과 비밀번호 형식 확인하고,
+        이메일이 존재하는지 확인
+    */
+    if (isEmpty(email.current.value) && !regex.email.test(email.current.value)) {
+      email.current.value = "";
+      email.current.focus();
+      alert("올바른 이메일 형식을 입력하지 않았습니다.");
+      return ;
+    }
+    if (checkEmail().length !== 1) {
+      email.current.value = "";
+      email.current.focus();
+      alert("해당 이메일은 존재하지 않습니다.");
+      return ;
+    }
+    if (isEmpty(password.current.value) && regex.password.test(password.current.value)){
+      password.current.value = "";
+      password.current.focus();
+      alert("비밀번호는 특수문자를 포함한 8자리 이상입니다.");
+      return ;
+    } else {
+      setVaildLogin(true);
+      setVaildPassword(true);
+    }
+
+    if (vaildLogin && vaildPassword) {
+      try {
+        signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        )
+          .then((userCredential) => {
+            console.log(userCredential);
+            getUserInfo();
+            alert("로그인을 하였습니다.");
+            history.push("/home");
+          })
+          .catch(err => {
+            console.log(err);
+            password.current.value = "";
+            password.current.focus();
+            alert("비밀번호가 틀렸습니다.");
+            setVaildPassword(false);
+          }) 
+      } catch (err) {
         console.log(err);
-        alert(
-          "로그인의 실패했습니다. 이메일이 올바르지 않거나, 비밀번호가 틀렸습니다."
-        );
-      });
+        alert("서버와의 통신이 올바르지 않습니다.");
+      }
+    }
   };
   return (
     <Container>

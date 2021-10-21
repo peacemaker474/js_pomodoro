@@ -1,16 +1,35 @@
-import { getFirestore, collection, getDocs } from './firebase';
+import { getFirestore, collection, getDocs} from './firebase';
 
 const db = getFirestore();
 
-// 데이터베이스에서 데이터를 가지고 오는 함수
-const getData = async () => {
+// 데이터베이스에서 사용자 데이터를 가지고 오는 함수
+const getUserData = async () => {
     const querySnapshot = await getDocs(collection(db, "user"));
-    let email = [];
+    let userInfo = [];
     querySnapshot.forEach((doc) => {
-        email.push(Object.values(doc.data()));
+        userInfo.push(Object.values(doc.data()));
     });
-    return email;
+    
+    return userInfo;
 }
+
+// 사용자 데이터에서 이메일만 모아서 따로 배열로 만드는 함수
+const getEmailLists = async () => {
+    let emailLists = [];
+
+    await getUserData()
+    .then(userInfo => {
+        userInfo.forEach(info => {
+            info.forEach(emailList => {
+                if (emailList.includes("@")) {
+                    emailLists.push(emailList);
+                }
+            })
+        })
+    })
+
+    return emailLists;
+};
 
 // 이름, 이메일, 암호 확인을 위한 정규표현식
 export const regex = {
@@ -19,4 +38,4 @@ export const regex = {
     password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 }
 
-export default getData;
+export {getUserData, getEmailLists};
