@@ -188,7 +188,7 @@ const Login = () => {
         <Label>이메일</Label>
         <LoginInput
           type="text"
-          placeholder="아이디를 입력하세요."
+          placeholder="이메일을 입력하세요."
           ref={email}
         />
         <Label>비밀번호</Label>

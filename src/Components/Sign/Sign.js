@@ -101,7 +101,7 @@ const Sign = () => {
     const check_rePwd = useRef(null);
     const history = useHistory();
     const {emailData} = useContext(ListContext);
-
+    
     // 이메일 중복 체크를 위해 사용할 함수
     const checkOverlapEmail = () => {
         const findEmail = emailData.filter(email => email === check_email.current.value);

@@ -32,4 +32,5 @@ export {
   setDoc,
   doc,
 };
+
 export default app;

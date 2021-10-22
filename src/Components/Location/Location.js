@@ -1,12 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from 'styled-components';
 import kakaoMap from "services/kakaoMap";
-import { ListContext } from "Routers/Router";
+import UserProfile from "./UserProfile";
 
 const Container = styled.main`
   width: 100vw;
   height: 100vh;
   display:flex;
+  position: relative;
+  z-index: 0;
 `;
 
 const FoodLists = styled.aside`
@@ -19,8 +21,6 @@ const Map = styled.div`
 `;
 
 const Location = () => {
-  const {userInfo} = useContext(ListContext);
-
   useEffect(() => {
     kakaoMap();
   }, []);
@@ -30,6 +30,7 @@ const Location = () => {
       <Container>
         <FoodLists />
         <Map id="map" />
+        <UserProfile />
       </Container>
     </>
   );
