@@ -152,6 +152,7 @@ const Sign = () => {
                     name : check_name.current.value,
                     email : check_email.current.value,
                 });
+
                 // 회원가입 하는 부분
                 await createUserWithEmailAndPassword(auth, check_email.current.value, check_password.current.value)
                 .then((userCredential) => {

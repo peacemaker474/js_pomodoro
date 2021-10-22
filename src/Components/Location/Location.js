@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from 'styled-components';
 import kakaoMap from "services/kakaoMap";
+import { ListContext } from "Routers/Router";
 
 const Container = styled.main`
   width: 100vw;
@@ -18,6 +19,8 @@ const Map = styled.div`
 `;
 
 const Location = () => {
+  const {userInfo} = useContext(ListContext);
+
   useEffect(() => {
     kakaoMap();
   }, []);
