@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  signOut,
 } from "firebase/auth";
 import { getFirestore, collection, getDocs, setDoc, doc} from "firebase/firestore";
 
@@ -30,6 +31,7 @@ export {
   collection,
   getDocs,
   setDoc,
+  signOut,
   doc,
 };
 
