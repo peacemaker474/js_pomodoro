@@ -7,7 +7,7 @@ const getUserData = async () => {
     const querySnapshot = await getDocs(collection(db, "user"));
     let userInfo = [];
     querySnapshot.forEach((doc) => {
-        userInfo.push(Object.values(doc.data()));
+        userInfo.push(doc.data());
     });
     
     return userInfo;
@@ -20,14 +20,9 @@ const getEmailLists = async () => {
     await getUserData()
     .then(userInfo => {
         userInfo.forEach(info => {
-            info.forEach(emailList => {
-                if (emailList.includes("@")) {
-                    emailLists.push(emailList);
-                }
-            })
-        })
-    })
-
+            emailLists.push(info.email);
+        });
+    });
     return emailLists;
 };
 

@@ -113,12 +113,10 @@ const Login = () => {
  // 이메일을 기준으로 유저에 대한 정보를 저장하는 함수
   const getUserInfo = () => {
     userInfo.forEach(info => {
-      info.forEach(item => {
-        if (item === email.current.value){
+      if (info.email === email.current.value) {
           setUserInfo(info);
           return ;
         }
-      })
     })
   }
 
@@ -181,6 +179,7 @@ const Login = () => {
       }
     }
   };
+
   return (
     <Container>
       <LoginForm onSubmit={onSubmit}>

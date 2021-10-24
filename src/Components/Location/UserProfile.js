@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ListContext } from 'Routers/Router';
 import styled from 'styled-components';
@@ -62,14 +62,14 @@ const LogOutButton = styled.button`
     border:1px solid rgba(10, 10, 10, .35);
 `;
 
-const UserInfo = ({userName}) => (
+const UserInfo = ({userInfo}) => (
     <>
         <LayerUserInfo>
             <LayerUser>
                 <Image src={userIcon} alt="Profile_Image"/>
             </LayerUser>
             <LayerUser>
-                <UserName>{userName}</UserName>
+                <UserName>{userInfo.name}</UserName>
                 <UserEditLink to="/users"> 프로필 수정 </UserEditLink>
             </LayerUser>
             <LogOutButton type="submit"> 로그아웃 </LogOutButton>
@@ -79,29 +79,16 @@ const UserInfo = ({userName}) => (
 
 const UserProfile = () => {
     const [userProfile, setUserProfile] = useState(false);
-    const [userName, setUserName] = useState();
     const {userInfo} = useContext(ListContext);
 
     const handleUserModal = evt => {
         setUserProfile(!userProfile);
     }
 
-    const getUserName = () => {
-        userInfo.forEach(item => {
-            if (!item.includes("@")){
-                setUserName(item);
-            }
-        });
-    }
-
-    useEffect(() => {
-        getUserName();
-    }, [])
-
     return (
         <>
             <LayerProfile onClick={handleUserModal} />
-            {userProfile && <UserInfo userName={userName}/>}
+            {userProfile && <UserInfo userInfo={userInfo}/>}
         </>
     )
 }
