@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 import kakaoMap from "services/kakaoMap";
 import UserProfile from "./UserProfile";
+import { Redirect } from "react-router-dom";
 
 const Container = styled.main`
   width: 100vw;
   height: 100vh;
-  display:flex;
+  display: flex;
   position: relative;
   z-index: 0;
 `;
@@ -20,10 +21,14 @@ const Map = styled.div`
   height: 100%;
 `;
 
-const Location = () => {
+const Location = ({ authorized }) => {
   useEffect(() => {
     kakaoMap();
   }, []);
+
+  if (!authorized) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
