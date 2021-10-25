@@ -21,14 +21,10 @@ const Map = styled.div`
   height: 100%;
 `;
 
-const Location = ({ authorized }) => {
+const Location = () => {
   useEffect(() => {
     kakaoMap();
   }, []);
-
-  if (!authorized) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <>
