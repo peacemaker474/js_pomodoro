@@ -116,6 +116,8 @@ const Login = () => {
       if (info.email === email.current.value) {
         setUserInfo(info);
         console.log(info);
+        //로그인할때 실행되는 getUserInfo에 isAuthorized 값도 넣어줌
+        sessionStorage.setItem("isAuthorized",true);
         return;
       }
     });
