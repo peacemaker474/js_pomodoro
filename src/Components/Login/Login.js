@@ -115,6 +115,7 @@ const Login = () => {
     userInfo.forEach(info => {
       if (info.email === email.current.value) {
           setUserInfo(info);
+          sessionStorage.setItem("isAuthorized", true);
           return ;
         }
     })
