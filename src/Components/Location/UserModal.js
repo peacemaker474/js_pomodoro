@@ -56,7 +56,7 @@ const UserModal = () => {
 
     const handleLogOut = evt => {
         auth.signOut();
-        sessionStorage.setItem("isAuthorized", false);
+        sessionStorage.setItem("isAuthorized", false)
         history.push("/");
     }
 
