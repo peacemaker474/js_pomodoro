@@ -56,8 +56,7 @@ const UserModal = () => {
 
     const handleLogOut = evt => {
         auth.signOut();
-        // logout과 동시에 isAuthorized에 false값을 넣어줌
-        sessionStorage.setItem("isAuthorized",false)
+        sessionStorage.setItem("isAuthorized", false)
         history.push("/");
     }
 
