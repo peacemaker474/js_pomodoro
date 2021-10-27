@@ -29,14 +29,12 @@ export default () => {
     setUserInfo,
     userInfo,
   };
-
-  // session Storage에서 로그인에 대한 true,false값을 확인함
+  
  let isAuthorized = sessionStorage.getItem("isAuthorized")
- console.log(isAuthorized)
 
   return (
     <Router>
-      {!isAuthorized ? <Redirect to ="/"/> : <Redirect to="/home"/> }
+      {!isAuthorized ? <Redirect to ="/" /> : <Redirect to="/home" />}
       <Switch>
         <ListContext.Provider value={store}>
           <Route path="/" exact component={Login} />
