@@ -11,7 +11,7 @@ const getUserData = async () => {
     });
     
     return userInfo;
-}
+};
 
 // 사용자 데이터에서 이메일만 모아서 따로 배열로 만드는 함수
 const getEmailLists = async () => {
@@ -31,6 +31,7 @@ export const regex = {
     name: /^[가-힣]{2,5}$/,
     email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
-}
+};
+
 
 export {getUserData, getEmailLists};
