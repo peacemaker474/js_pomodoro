@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import searchImage from 'assets/search.png';
+import { kakaoSearch } from 'services/kakaoMap';
 
 const LayerForm = styled.div`
     width: 100%;
@@ -48,16 +49,23 @@ const SearchIcon = styled.img`
 `;
 
 const SearchForm = () => {
+    const [searchKeyword, setSearchKeyword] = useState();
+    const search = useRef(null);
+
+    useEffect(() => {
+        kakaoSearch(searchKeyword);
+    }, [searchKeyword])
+
     const handleSearchKeyword = evt => {
         evt.preventDefault();
-
+        setSearchKeyword(search.current.value);
     }
-    
+
     return (
         <LayerForm>
             <FoodListsTitle> MyFoodMap</FoodListsTitle>
             <FoodSearchForm onSubmit={handleSearchKeyword}>
-                <FoodSearchInput placeholder="맛집 검색하기" type="text" />
+                <FoodSearchInput placeholder="맛집 검색하기" type="text" ref={search}/>
                 <FoodSearchButton type="submit">
                     <SearchIcon src={searchImage}/>
                 </FoodSearchButton>
