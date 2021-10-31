@@ -12,7 +12,7 @@ export const kakaoMap = () => {
 };
 
 // 카카오톡 검색 후 마크 생성 영역
-export const kakaoSearch = (search) => {
+export const kakaoSearch = (search, setGetLists) => {
     const infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
     const container = document.getElementById("map");
@@ -29,13 +29,14 @@ export const kakaoSearch = (search) => {
     ps.keywordSearch(search, placesSearchCB); 
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-    function placesSearchCB (data, status, pagination) {
+    function placesSearchCB ( data, status ) {
         if (status === kakao.maps.services.Status.OK) {
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
             // LatLngBounds 객체에 좌표를 추가합니다
             const bounds = new kakao.maps.LatLngBounds();
-            for (let i=0; i<data.length; i++) {
-                displayMarker(data[i]);    
+            setGetLists(data);
+            for (let i = 0; i < data.length; i++) {
+                displayMarker(data[i]);
                 bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
             }       
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
@@ -51,10 +52,10 @@ export const kakaoSearch = (search) => {
         });
 
         // 마커에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(marker, 'click', function() {
+        kakao.maps.event.addListener(marker, 'mouseover', function() {
             // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
             infowindow.setContent(`<div style="padding:5px;font-size:12px;"> ${place.place_name} </div>`);
             infowindow.open(map, marker);
         });
     }
-}
+};

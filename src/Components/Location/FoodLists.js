@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchForm from './SearchForm';
+import List from './List';
+import { kakaoSearch } from 'services/kakaoMap';
 
 const LayerFood = styled.aside`
     width: 25%;
@@ -8,10 +10,18 @@ const LayerFood = styled.aside`
 `;
 
 const FoodLists = () => {
+    const [searchKeyword, setSearchKeyword] = useState();
+    const [getLists, setGetLists] = useState();
+
+    useEffect(() => {
+        kakaoSearch(searchKeyword, setGetLists);
+    }, [searchKeyword]);
+
     return (
         <>
             <LayerFood>
-                <SearchForm />
+                <SearchForm setSearchKeyword={setSearchKeyword}/>
+                <List getLists={getLists}/>
             </LayerFood>
         </>
     )
