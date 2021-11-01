@@ -1,14 +1,28 @@
 /*global kakao*/
 
+// 위치 정보를 내 기준으로 재설정
+const getMyLocation = (map) => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            let lat = position.coords.latitude,
+                lon = position.coords.longitude;
+            let location = new kakao.maps.LatLng(lat, lon);
+            map.setCenter(location);
+        });
+    }
+};
+
 // 첫 로그인 후 지도 화면에 띄우기
 export const kakaoMap = () => {
     const container = document.getElementById("map");
-    let options = {
-        center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
-        level: 3,
-    };
+        let options = {
+            center: new kakao.maps.LatLng(37.566826, 126.9786567),
+            level: 3,
+        };
     // 지도를 생성합니다
-    new kakao.maps.Map(container, options);
+    const map = new kakao.maps.Map(container, options);
+    // 현재 위치로 재설정
+    getMyLocation(map);
 };
 
 // 카카오톡 검색 후 마크 생성 영역
@@ -16,13 +30,13 @@ export const kakaoSearch = (search, setGetLists) => {
     const infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
     const container = document.getElementById("map");
-    let options = {
-        center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
-        level: 3,
-    };
-    // 지도를 생성합니다
+        let options = {
+            center: new kakao.maps.LatLng(37.566826, 126.9786567),
+            level: 3,
+        };
+        // 지도를 생성합니다
     const map = new kakao.maps.Map(container, options);
-    
+
     const ps = new kakao.maps.services.Places();
 
     // 키워드로 장소를 검색합니다
