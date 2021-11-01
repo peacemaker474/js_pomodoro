@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import searchImage from 'assets/search.png';
-import { kakaoSearch } from 'services/kakaoMap';
 
 const LayerForm = styled.div`
     width: 100%;
@@ -48,13 +47,8 @@ const SearchIcon = styled.img`
     margin-left: 10px;
 `;
 
-const SearchForm = () => {
-    const [searchKeyword, setSearchKeyword] = useState();
+const SearchForm = ({setSearchKeyword}) => {
     const search = useRef(null);
-
-    useEffect(() => {
-        kakaoSearch(searchKeyword);
-    }, [searchKeyword])
 
     const handleSearchKeyword = evt => {
         evt.preventDefault();
