@@ -18,6 +18,8 @@ export default () => {
   // 사용자 프로필에 대한 정보 저장을 위해 useState 사용
   const [userInfo, setUserInfo] = useState();
 
+  let isAuthorized = sessionStorage.getItem("isAuthorized");
+
   // 컴포넌트가 렌더링이 됐을 때, 한번만 데이터를 받아오면 되기 때문에 useEffect를 사용
   useEffect(() => {
     getEmailLists().then(data => setEmailData(data));
@@ -30,11 +32,9 @@ export default () => {
     userInfo
   };
 
-  let isAuthorized = sessionStorage.getItem("isAuthorized");
-
   return (
     <Router>
-      {!isAuthorized ? <Redirect to="/" /> : <Redirect to="/home" />}
+      {isAuthorized === "true" ? <Redirect to="/home" /> : <Redirect to="/" />}
       <Switch>
         <ListContext.Provider value={store}>
           <Route path="/" exact component={Login} />

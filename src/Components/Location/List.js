@@ -5,8 +5,9 @@ const ListUl = styled.ul`
     width: 100%;
     height: 75%;
     display: grid;
-    grid-template-rows: repeat(7, 12%);
+    grid-template-rows: repeat(15, 14%);
     grid-gap: 5px;
+    overflow: scroll;
 `;
 
 const Listli = styled.li`
@@ -16,11 +17,11 @@ const Listli = styled.li`
 `;
 
 const ListOrder = styled.h1`
-    width: 15%;
+    width: 20%;
     height: 100%;
     font-size: 3.8rem;
     text-align: center;
-    padding-top: 20px;
+    padding-top: 25px;
 `;
 
 const FoodContent = styled.div`
@@ -48,7 +49,6 @@ const FoodNumber = styled.span`
 `;
 
 const List = ({getLists}) => {
-    console.log(getLists);
     return (
         <>
             <ListUl>
