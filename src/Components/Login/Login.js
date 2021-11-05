@@ -171,6 +171,7 @@ const Login = () => {
             console.log(userCredential);
             getUserInfo();
             alert("로그인을 하였습니다.");
+            console.log(auth.currentUser);
             history.push("/home");
           })
           .catch((err) => {
