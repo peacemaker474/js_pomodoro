@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import bookMark from 'assets/bookmark.jpg';
 
 const ListUl = styled.ul`
     width: 100%;
@@ -14,6 +15,7 @@ const Listli = styled.li`
     width: 100%;
     height: 100%;
     display: flex;
+    position: relative;
 `;
 
 const ListOrder = styled.h1`
@@ -48,24 +50,31 @@ const FoodNumber = styled.span`
     font-size: 1.1rem;
 `;
 
+const BookMark = styled.img`
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10%;
+    top: 20%;
+`;
+
 const List = ({getLists}) => {
     return (
-        <>
-            <ListUl>
-                {getLists && getLists.map((data, index) => (
-                    <Listli key={data.id}>
-                        <ListOrder> {index} </ListOrder>
-                        <FoodContent>
-                            <FoodName>
-                                <FoodLink href={data.place_url}> {data.place_name} </FoodLink>
-                            </FoodName>
-                            <FoodAddress> {data.road_address_name} </FoodAddress>
-                            <FoodNumber> {data.phone} </FoodNumber>
-                        </FoodContent>
-                    </Listli>
-                ))}
-            </ListUl>
-        </>
+        <ListUl>
+            {getLists && getLists.map((data, index) => (
+                <Listli key={data.id}>
+                    <ListOrder> {index} </ListOrder>
+                    <FoodContent>
+                        <FoodName>
+                            <FoodLink href={data.place_url}> {data.place_name} </FoodLink>
+                        </FoodName>
+                        <FoodAddress> {data.road_address_name} </FoodAddress>
+                        <FoodNumber> {data.phone} </FoodNumber>
+                    </FoodContent>
+                    <BookMark id={data.id} src={bookMark} alt="BookMark" />
+                </Listli>
+            ))}
+        </ListUl>
     );
 };
 
