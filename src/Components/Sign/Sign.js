@@ -1,6 +1,6 @@
 import React, {useRef, useState, useContext} from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc } from 'services/firebase';
+import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc, updateProfile } from 'services/firebase';
 import {ListContext} from 'Routers/Router';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
@@ -100,7 +100,7 @@ const Sign = () => {
     const check_password = useRef(null);
     const check_rePwd = useRef(null);
     const history = useHistory();
-    const {emailData} = useContext(ListContext);
+    const {emailData, setCheckSign} = useContext(ListContext);
     
     // 이메일 중복 체크를 위해 사용할 함수
     const checkOverlapEmail = () => {
@@ -155,8 +155,15 @@ const Sign = () => {
 
                 // 회원가입 하는 부분
                 await createUserWithEmailAndPassword(auth, check_email.current.value, check_password.current.value)
-                .then((userCredential) => {
-                    history.push("/");
+                .then(() => {
+                    // 사용자 프로필 설정하는 부분
+                    updateProfile(auth.currentUser, {
+                        displayName: check_name.current.value,
+                    })
+                    .then(() => {
+                        setCheckSign(true);
+                        history.push("/");
+                    });
                 });
             } catch (error) {
                 console.log(error);

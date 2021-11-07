@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { getFirestore, collection, getDocs, setDoc, doc} from "firebase/firestore";
 
@@ -33,6 +34,7 @@ export {
   setDoc,
   signOut,
   doc,
+  updateProfile,
 };
 
 export default app;

@@ -6,7 +6,7 @@ import { ListContext } from "Routers/Router";
 import FindModal from "./FindPwdModal";
 import mainImage from "assets/mainImage.jpg";
 import { isEmpty } from "lodash";
-import { regex } from "services/store";
+import { regex, isAuthorized } from "services/store";
 
 const Container = styled.main`
   width: 100vw;
@@ -102,7 +102,7 @@ const Login = () => {
   const [vaildPassword, setVaildPassword] = useState(false);
   const email = useRef(null);
   const password = useRef(null);
-  const { emailData, userInfo, setUserInfo } = useContext(ListContext);
+  const { emailData, setUserInfo } = useContext(ListContext);
   const history = useHistory();
 
   // 이메일이 있는 지 없는지 확인하는 함수
@@ -110,16 +110,17 @@ const Login = () => {
     const findEmail = emailData.filter((item) => item === email.current.value);
     return findEmail;
   };
+  
   // 이메일을 기준으로 유저에 대한 정보를 저장하는 함수
-  const getUserInfo = () => {
-    userInfo.forEach((info) => {
-      if (info.email === email.current.value) {
-        setUserInfo(info);
-        sessionStorage.setItem("isAuthorized", true);
-        return;
-      }
-    });
-  };
+  // const getUserInfo = () => {
+  //   userInfo.forEach((info) => {
+  //     if (info.email === email.current.value) {
+  //       setUserInfo(info);
+  //       sessionStorage.setItem("isAuthorized", true);
+  //       return;
+  //     }
+  //   });
+  // };
 
   const handleFindPwdModal = (evt) => {
     evt.preventDefault();
@@ -168,10 +169,10 @@ const Login = () => {
           password.current.value
         )
           .then((userCredential) => {
-            console.log(userCredential);
-            getUserInfo();
+            setUserInfo(userCredential.user);
+            isAuthorized.setSessionStorage("isAuthorized", true);
+            isAuthorized.setSessionStorage("userProfile", JSON.stringify(userCredential.user));
             alert("로그인을 하였습니다.");
-            console.log(auth.currentUser);
             history.push("/home");
           })
           .catch((err) => {

@@ -2,8 +2,16 @@ import { getFirestore, collection, getDocs} from './firebase';
 
 const db = getFirestore();
 
+// 세션 스토리지를 활용한 인증 지속성
+
+export const isAuthorized = {
+    setSessionStorage: (keyName, value) => sessionStorage.setItem(keyName, value),
+    getAuthorized: () => sessionStorage.getItem("isAuthorized"),
+    getProfile: () => sessionStorage.getItem("userProfile"),
+}
+
 // 데이터베이스에서 사용자 데이터를 가지고 오는 함수
-const getUserData = async () => {
+export const getUserData = async () => {
     const querySnapshot = await getDocs(collection(db, "user"));
     let userInfo = [];
     querySnapshot.forEach((doc) => {
@@ -14,7 +22,7 @@ const getUserData = async () => {
 };
 
 // 사용자 데이터에서 이메일만 모아서 따로 배열로 만드는 함수
-const getEmailLists = async () => {
+export const getEmailLists = async () => {
     let emailLists = [];
 
     await getUserData()
@@ -32,6 +40,3 @@ export const regex = {
     email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 };
-
-
-export {getUserData, getEmailLists};

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import UserProfile from "./UserProfile";
 import FoodLists from "./FoodLists";
 import { kakaoMap } from "services/kakaoMap";
-import { Redirect } from "react-router";
 
 const Container = styled.main`
   width: 100vw;

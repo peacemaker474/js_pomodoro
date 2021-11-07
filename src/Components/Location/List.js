@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import bookMark from 'assets/bookmark.jpg';
+import { useEffect, useMemo } from 'react/cjs/react.development';
 
 const ListUl = styled.ul`
     width: 100%;
@@ -16,6 +17,7 @@ const Listli = styled.li`
     height: 100%;
     display: flex;
     position: relative;
+    z-index: 0;
 `;
 
 const ListOrder = styled.h1`
@@ -56,9 +58,16 @@ const BookMark = styled.img`
     position: absolute;
     right: 10%;
     top: 20%;
+    z-index: 1;
 `;
 
 const List = ({getLists}) => {
+    const mark = useRef(null);
+
+    const addMyFoodList = evt => {
+        console.log(evt.target.parentElement);
+    }
+
     return (
         <ListUl>
             {getLists && getLists.map((data, index) => (
@@ -71,7 +80,7 @@ const List = ({getLists}) => {
                         <FoodAddress> {data.road_address_name} </FoodAddress>
                         <FoodNumber> {data.phone} </FoodNumber>
                     </FoodContent>
-                    <BookMark id={data.id} src={bookMark} alt="BookMark" />
+                    <BookMark id={data.id} src={bookMark} alt="BookMark" onClick={addMyFoodList} ref={mark} />
                 </Listli>
             ))}
         </ListUl>
