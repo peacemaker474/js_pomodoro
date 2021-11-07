@@ -8,6 +8,7 @@ export const isAuthorized = {
     setSessionStorage: (keyName, value) => sessionStorage.setItem(keyName, value),
     getAuthorized: () => sessionStorage.getItem("isAuthorized"),
     getProfile: () => sessionStorage.getItem("userProfile"),
+    removeProfile: () => sessionStorage.removeItem("userProfile"),
 }
 
 // 데이터베이스에서 사용자 데이터를 가지고 오는 함수

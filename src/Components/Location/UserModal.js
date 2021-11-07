@@ -58,9 +58,10 @@ const UserModal = () => {
     const handleLogOut = evt => {
         auth.signOut();
         isAuthorized.setSessionStorage("isAuthorized", false);
+        isAuthorized.removeProfile();
         history.push("/");
     }
-    
+
     return (
         <LayerModal>
             <LayerUser>
