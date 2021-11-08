@@ -3,7 +3,6 @@ import { getFirestore, collection, getDocs} from './firebase';
 const db = getFirestore();
 
 // 세션 스토리지를 활용한 인증 지속성
-
 export const isAuthorized = {
     setSessionStorage: (keyName, value) => sessionStorage.setItem(keyName, value),
     getAuthorized: () => sessionStorage.getItem("isAuthorized"),

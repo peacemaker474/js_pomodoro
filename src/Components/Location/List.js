@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import bookMark from 'assets/bookmark.jpg';
-import { useEffect, useMemo } from 'react/cjs/react.development';
 
 const ListUl = styled.ul`
     width: 100%;

@@ -88,10 +88,11 @@ const SignLink = styled(Link)`
 
 const FindPwd = styled.button`
   all: unset;
-  width: 55%;
+  width: 20%;
   text-decoration: none;
   text-align: right;
   font-size: 1.2rem;
+  margin-left: 35%;
   cursor: pointer;
   color: ${(props) => props.color};
 `;
