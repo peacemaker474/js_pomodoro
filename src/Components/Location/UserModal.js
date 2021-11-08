@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ListContext } from 'Routers/Router';
 import {auth, signOut} from 'services/firebase';
+import { isAuthorized } from 'services/store';
 import userIcon from 'assets/userIcon.jpeg';
 
 const LayerModal = styled.div`
@@ -56,7 +57,8 @@ const UserModal = () => {
 
     const handleLogOut = evt => {
         auth.signOut();
-        sessionStorage.setItem("isAuthorized", false)
+        isAuthorized.setSessionStorage("isAuthorized", false);
+        isAuthorized.removeProfile();
         history.push("/");
     }
 
@@ -66,7 +68,7 @@ const UserModal = () => {
                 <UserImage src={userIcon} alt="Profile_Image"/>
             </LayerUser>
             <LayerUser>
-                <UserName>{userInfo.name}</UserName>
+                <UserName>{userInfo && userInfo.displayName}</UserName>
                 <UserEditLink to="/users"> 프로필 수정 </UserEditLink>
             </LayerUser>
             <LogOutButton type="submit" onClick={handleLogOut}> 로그아웃 </LogOutButton>

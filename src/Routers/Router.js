@@ -5,7 +5,7 @@ import {
   Switch, 
   Redirect 
 } from "react-router-dom";
-import {getUserData, getEmailLists} from "services/store";
+import {getUserData, getEmailLists, isAuthorized} from "services/store";
 import Login from "Components/Login/Login";
 import Sign from "Components/Sign/Sign";
 import Location from "Components/Location/Location";
@@ -17,24 +17,33 @@ export default () => {
   const [emailData, setEmailData] = useState();
   // 사용자 프로필에 대한 정보 저장을 위해 useState 사용
   const [userInfo, setUserInfo] = useState();
-
-  let isAuthorized = sessionStorage.getItem("isAuthorized");
+  // 회원가입 성공 유무를 확인
+  const [checkSign, setCheckSign] = useState(false);
 
   // 컴포넌트가 렌더링이 됐을 때, 한번만 데이터를 받아오면 되기 때문에 useEffect를 사용
   useEffect(() => {
     getEmailLists().then(data => setEmailData(data));
-    getUserData().then((data) => setUserInfo(data));
+    if (isAuthorized.getAuthorized() === "true") {
+      setUserInfo(JSON.parse(isAuthorized.getProfile()));
+    } else {
+      getUserData().then(data => setUserInfo(data));
+    }
   }, []);
+
+  useEffect(() => {
+    getEmailLists().then(data => setEmailData(data));
+  }, [checkSign]);
 
   const store = {
     emailData,
     setUserInfo,
-    userInfo
+    userInfo,
+    setCheckSign,
   };
 
   return (
     <Router>
-      {isAuthorized === "true" ? <Redirect to="/home" /> : <Redirect to="/" />}
+      {isAuthorized.getAuthorized() === "true" ? <Redirect to="/home" /> : <Redirect to="/" />}
       <Switch>
         <ListContext.Provider value={store}>
           <Route path="/" exact component={Login} />
