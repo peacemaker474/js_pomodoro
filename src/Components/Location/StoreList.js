@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
+import { getFirestore, doc, arrayUnion, updateDoc } from "services/firebase";
 import bookMark from 'assets/bookmark.jpg';
+import { ListContext } from 'Routers/Router';
 
 const FoodLists = styled.ul`
     width: 100%;
@@ -62,9 +64,23 @@ const BookMark = styled.img`
 
 const StoreList = ({getLists}) => {
     const markLists = useRef(getLists && getLists.map(() => React.createRef()));
+    const {userInfo} = useContext(ListContext);
 
-    const addMyFoodList = evt => {
-        console.log(evt.target);
+    const handleZoomMark = evt => {
+        console.log(evt);
+    }
+
+    const addMyFoodList = async (evt) => {
+        const db = getFirestore();
+        const getUserDB = doc(db, "user", userInfo.displayName);
+
+        await getLists.forEach(data => {
+            if (data.id === evt.target.id) {
+                updateDoc(getUserDB, {
+                    lists: arrayUnion(data)
+                });
+            }
+        })
     }
 
     return (
@@ -73,8 +89,8 @@ const StoreList = ({getLists}) => {
                 <FoodList key={data.id}>
                     <StoreIndex> {index} </StoreIndex>
                     <FoodStoreContents>
-                        <StoreName>
-                            <StoreLink href={data.place_url}> {data.place_name} </StoreLink>
+                        <StoreName onClick={handleZoomMark}>
+                            <StoreLink> {data.place_name} </StoreLink>
                         </StoreName>
                         <StoreAddress> {data.road_address_name} </StoreAddress>
                         <StoreCallNumber> {data.phone} </StoreCallNumber>

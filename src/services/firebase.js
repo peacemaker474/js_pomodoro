@@ -7,7 +7,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { getFirestore, collection, getDocs, setDoc, doc} from "firebase/firestore";
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, arrayUnion} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,7 +34,9 @@ export {
   setDoc,
   signOut,
   doc,
+  updateDoc,
   updateProfile,
+  arrayUnion,
 };
 
 export default app;
