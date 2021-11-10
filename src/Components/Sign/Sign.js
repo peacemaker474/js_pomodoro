@@ -118,26 +118,31 @@ const Sign = () => {
             alert("이름은 2~5글자만 입력해주세요.");
             check_name.current.value = "";
             check_name.current.focus();
+            return ;
         }
         if (isEmpty(check_email.current.value) && !regex.email.test(check_email.current.value)) {
             alert("이메일 형식에 맞게 다시 입력해주세요.");
             check_email.current.value = "";
             check_email.current.focus();
+            return ;
         }
         if (isEmpty(check_password.current.value) && !regex.password.test(check_password.current.value)) {
             alert("8자리 이상의 영문, 숫자, 특수문자가 반드시 1개라도 포함되어야 합니다.");
             check_password.current.value = "";
             check_password.current.focus();
+            return ;
         }
         if (check_password.current.value !== check_rePwd.current.value) {
             alert("비밀번호가 서로 일치하지 않습니다. 다시 입력해주세요.");
             check_rePwd.current.value = "";
             check_rePwd.current.focus();
+            return ;
         }
         if (checkOverlapEmail().length === 1) {
             alert("이메일이 이미 있으니, 다시 입력해주세요.");
             check_email.current.value = "";
             check_email.current.focus();
+            return ;
         } else {
             setVaildEmail(true);
             setVaildName(true);

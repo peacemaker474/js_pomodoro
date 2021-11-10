@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from 'styled-components';
 import UserProfile from "./UserProfile";
-import FoodLists from "./FoodLists";
+import FindFoodLists from "./FindFoodLists";
 import { kakaoMap } from "services/kakaoMap";
 
 const Container = styled.main`
@@ -25,7 +25,7 @@ const Location = () => {
   return (
     <>
       <Container>
-        <FoodLists />
+        <FindFoodLists />
         <Map id="map" />
         <UserProfile />
       </Container>

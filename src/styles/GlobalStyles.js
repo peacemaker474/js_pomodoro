@@ -12,10 +12,6 @@ const GlobalStyle = createGlobalStyle`
     html{
         font-size: 10px;
     }
-    body{
-        width: 100vw;
-        height: 100vh;
-    }
 `;
 
 export default GlobalStyle;

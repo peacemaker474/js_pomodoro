@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ListContext } from 'Routers/Router';
-import {auth, signOut} from 'services/firebase';
+import { auth, signOut } from 'services/firebase';
 import { isAuthorized } from 'services/store';
 import userIcon from 'assets/userIcon.jpeg';
 
@@ -52,14 +52,19 @@ const LogOutButton = styled.button`
 `;
 
 const UserModal = () => {
-    const {userInfo} = useContext(ListContext);
+    const { userInfo } = useContext(ListContext);
     const history = useHistory();
 
     const handleLogOut = evt => {
-        auth.signOut();
-        isAuthorized.setSessionStorage("isAuthorized", false);
-        isAuthorized.removeProfile();
-        history.push("/");
+        signOut(auth)
+        .then(() => {
+            isAuthorized.setSessionStorage("isAuthorized", false);
+            isAuthorized.removeProfile();
+            history.push("/");
+        })
+        .catch((err) => {
+            alert(err.message);
+        })
     }
 
     return (
@@ -68,7 +73,7 @@ const UserModal = () => {
                 <UserImage src={userIcon} alt="Profile_Image"/>
             </LayerUser>
             <LayerUser>
-                <UserName>{userInfo && userInfo.displayName}</UserName>
+                <UserName>{userInfo?.displayName}</UserName>
                 <UserEditLink to="/users"> 프로필 수정 </UserEditLink>
             </LayerUser>
             <LogOutButton type="submit" onClick={handleLogOut}> 로그아웃 </LogOutButton>

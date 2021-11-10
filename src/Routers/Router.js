@@ -22,7 +22,6 @@ export default () => {
 
   // 컴포넌트가 렌더링이 됐을 때, 한번만 데이터를 받아오면 되기 때문에 useEffect를 사용
   useEffect(() => {
-    getEmailLists().then(data => setEmailData(data));
     if (isAuthorized.getAuthorized() === "true") {
       setUserInfo(JSON.parse(isAuthorized.getProfile()));
     } else {
