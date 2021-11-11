@@ -57,7 +57,7 @@ const SearchForm = ({setSearchKeyword}) => {
 
     return (
         <LayerForm>
-            <FoodListsTitle> MyFoodMap</FoodListsTitle>
+            <FoodListsTitle> MyFoodMap </FoodListsTitle>
             <FoodSearchForm onSubmit={handleSearchKeyword}>
                 <FoodSearchInput placeholder="맛집 검색하기" type="text" ref={search}/>
                 <FoodSearchButton type="submit">
