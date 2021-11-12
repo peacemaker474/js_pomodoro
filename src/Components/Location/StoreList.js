@@ -76,7 +76,7 @@ const StoreList = ({getLists}) => {
 
         await getLists.forEach(data => {
             if (data.id === evt.target.id) {
-                updateDoc(getUserDB, {
+                updateDoc(getUserDB, { 
                     lists: arrayUnion(data)
                 });
             }

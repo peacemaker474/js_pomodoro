@@ -74,7 +74,7 @@ const UserModal = () => {
             </LayerUser>
             <LayerUser>
                 <UserName>{userInfo?.displayName}</UserName>
-                <UserEditLink to="/users"> 프로필 수정 </UserEditLink>
+                <UserEditLink to={`/user/${userInfo.uid}`}> 프로필 수정 </UserEditLink>
             </LayerUser>
             <LogOutButton type="submit" onClick={handleLogOut}> 로그아웃 </LogOutButton>
         </LayerModal>
