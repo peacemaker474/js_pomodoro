@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { ListContext } from 'Routers/Router';
+import React from 'react';
 import styled from 'styled-components';
 
 const LayerInfo = styled.section`
@@ -22,7 +21,7 @@ const UserForm = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 25px;
 `;
 
 const UserInput = styled.input`
@@ -34,25 +33,32 @@ const UserInput = styled.input`
     border: 2px solid #F3C9DD;
 `;
 
-const Label = styled.label`
-    width: 90%;
-    font-size: 1.7rem;
+const UserBtn = styled.button`
+    all: unset;
+    position: absolute;
+    bottom: 50%;
+    left: 7%;
+    font-size: 1.5rem;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    background-color: #FEDCCC;
+    border-radius: 5px;
 `;
 
-const UserInformaiton = () => {
-    const {userInfo} = useContext(ListContext);
+const ChangePwd = () => {
 
     return (
         <LayerInfo>
-            <InfoTitle> 내 정보 </InfoTitle>
+            <InfoTitle> 비밀번호 변경하기 </InfoTitle>
             <UserForm>
-                <Label> 이름 </Label>
-                <UserInput type="text" value={userInfo.displayName} disabled />
-                <Label> 이메일 주소 </Label>
-                <UserInput type="email" value={userInfo.email} disabled />
+                <UserInput type="password" placeholder="현재 비밀번호" />
+                <UserInput type="password" placeholder="새 비밀번호" />
+                <UserInput type="password" placeholder="새 비밀번호 확인" />
+                <UserBtn type="submit"> 확인 </UserBtn>
             </UserForm>
         </LayerInfo>
     )
 };
 
-export default UserInformaiton;
+export default ChangePwd;
