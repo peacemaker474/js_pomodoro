@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { getFirestore, doc, arrayUnion, updateDoc } from "services/firebase";
-import { getDoc, deleteDoc } from "firebase/firestore";
+import { getDoc, arrayRemove } from "firebase/firestore";
 import { ListContext } from "Routers/Router";
 import bookMark from "assets/bookmark.svg";
 import bookMarkBorder from "assets/bookmark-border.svg";
@@ -69,13 +69,9 @@ function ListItem({ data, index, getLists }) {
     setIsCheck(!isCheck);
 
     const getUserDB = doc(db, "user", userInfo.displayName);
-    const data = await getDoc(getUserDB);
 
     await getLists.forEach((data) => {
       if (data.id === evt.target.id) {
-        console.log(data);
-        console.log(evt.target.id);
-        console.log(data.id);
         updateDoc(getUserDB, {
           lists: arrayUnion(data),
         });
@@ -88,25 +84,15 @@ function ListItem({ data, index, getLists }) {
     setIsCheck(!isCheck);
 
     const getUserDB = doc(db, "user", userInfo.displayName);
-    // console.log(getUserDB);
     const data = await getDoc(getUserDB);
 
-    delete data.data().lists[-1];
-    console.log(data.data().lists);
-    console.log(data.data().lists[0] === null);
-    console.log(data.data().lists[0] === undefined);
-    console.log(data.data().lists[1] === null);
-    console.log(data.data().lists[1] === undefined);
-
-    // console.log(evt.target.id);
-    console.log(Object.keys(data.data().lists).length);
-
-    // await Object.keys(data.lists).forEach((i) => {
-    //   //   if (data.id === evt.target.id) {
-    //   //     console.log(data);
-    //   //   }
-    //   console.log(data[i]);
-    // });
+    Object.keys(data.data().lists).forEach((i) => {
+      if (data.data().lists[i].id === evt.target.id) {
+        updateDoc(getUserDB, {
+          lists: arrayRemove(data.data().lists[i]),
+        });
+      }
+    });
   };
 
   return (
