@@ -39,20 +39,34 @@ const Label = styled.label`
     font-size: 1.7rem;
 `;
 
-const UserInformaiton = () => {
+const UserBtn = styled.button`
+    all: unset;
+    position: absolute;
+    bottom: 50%;
+    left: 7%;
+    font-size: 1.5rem;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    background-color: #FEDCCC;
+    border-radius: 5px;
+`;
+
+const UserModify = () => {
     const {userInfo} = useContext(ListContext);
 
     return (
         <LayerInfo>
-            <InfoTitle> 내 정보 </InfoTitle>
+            <InfoTitle> 내 정보 수정 </InfoTitle>
             <UserForm>
                 <Label> 이름 </Label>
-                <UserInput type="text" value={userInfo.displayName} disabled />
+                <UserInput type="text" placeholder={userInfo.displayName} />
                 <Label> 이메일 주소 </Label>
                 <UserInput type="email" value={userInfo.email} disabled />
+                <UserBtn type="submit"> 완료 </UserBtn>
             </UserForm>
         </LayerInfo>
     )
 };
 
-export default UserInformaiton;
+export default UserModify;
