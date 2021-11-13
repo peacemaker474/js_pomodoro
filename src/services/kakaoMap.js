@@ -40,7 +40,7 @@ export const kakaoSearch = (search, setGetLists) => {
     const ps = new kakao.maps.services.Places();
 
     // 키워드로 장소를 검색합니다
-    ps.keywordSearch(search, placesSearchCB); 
+    ps.keywordSearch(search, placesSearchCB, {page: 3}); 
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     function placesSearchCB ( data, status ) {
