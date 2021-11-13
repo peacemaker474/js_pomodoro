@@ -9,6 +9,7 @@ import {getUserData, getEmailLists, isAuthorized} from "services/store";
 import Login from "Components/Login/Login";
 import Sign from "Components/Sign/Sign";
 import Location from "Components/Location/Location";
+import UserRouter from "./UserRouter";
 
 export const ListContext = createContext("");
 
@@ -45,9 +46,10 @@ export default () => {
       {isAuthorized.getAuthorized() === "true" ? <Redirect to="/home" /> : <Redirect to="/" />}
       <Switch>
         <ListContext.Provider value={store}>
-          <Route path="/" exact component={Login} />
+          <Route path="/" exact component={Login } />
           <Route path="/sign" exact component={Sign} />
           <Route path="/home" exact component={Location} />
+          <Route path="/user/:id" component={UserRouter} />
         </ListContext.Provider>
       </Switch>
     </Router>
