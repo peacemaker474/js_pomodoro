@@ -1,14 +1,16 @@
 import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { getFirestore, doc, arrayUnion, updateDoc } from "services/firebase";
-import bookMark from 'assets/bookmark.jpg';
+import bookMark from 'assets/bookmark.svg';
+import bookMarkBorder from "assets/bookmark-border.svg";
 import { ListContext } from 'Routers/Router';
+import PageNumber from './StorePage';
 
 const FoodLists = styled.ul`
     width: 100%;
     height: 75%;
     display: grid;
-    grid-template-rows: repeat(15, 14%);
+    grid-template-rows: repeat(16, 14%);
     grid-gap: 5px;
     overflow: scroll;
 `;
@@ -62,8 +64,9 @@ const BookMark = styled.img`
     z-index: 1;
 `;
 
-const StoreList = ({getLists}) => {
+const StoreList = ({getLists, setPage}) => {
     const markLists = useRef(getLists && getLists.map(() => React.createRef()));
+    const scrollTop = useRef(null);
     const {userInfo} = useContext(ListContext);
 
     const handleZoomMark = evt => {
@@ -80,11 +83,12 @@ const StoreList = ({getLists}) => {
                     lists: arrayUnion(data)
                 });
             }
-        })
+        });
+        
     }
 
     return (
-        <FoodLists>
+        <FoodLists ref={scrollTop}>
             {getLists && getLists.map((data, index) => (
                 <FoodList key={data.id}>
                     <StoreIndex> {index} </StoreIndex>
@@ -98,6 +102,7 @@ const StoreList = ({getLists}) => {
                     <BookMark id={data.id} src={bookMark} alt="BookMark" onClick={addMyFoodList} ref={markLists} />
                 </FoodList>
             ))}
+            {getLists !== undefined ? <PageNumber setPage={setPage} scrollTop={scrollTop} /> : null}
         </FoodLists>
     );
 };

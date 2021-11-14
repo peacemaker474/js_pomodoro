@@ -26,7 +26,7 @@ export const kakaoMap = () => {
 };
 
 // 카카오톡 검색 후 마크 생성 영역
-export const kakaoSearch = (search, setGetLists) => {
+export const kakaoSearch = (search, setGetLists, page = 1) => {
     const infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
     const container = document.getElementById("map");
@@ -40,7 +40,7 @@ export const kakaoSearch = (search, setGetLists) => {
     const ps = new kakao.maps.services.Places();
 
     // 키워드로 장소를 검색합니다
-    ps.keywordSearch(search, placesSearchCB, {page: 3}); 
+    ps.keywordSearch(search, placesSearchCB, {page}); 
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     function placesSearchCB ( data, status ) {
