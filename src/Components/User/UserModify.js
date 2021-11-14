@@ -72,7 +72,6 @@ const UserModify = () => {
             isAuthorized.removeProfile();
             isAuthorized.setSessionStorage("userProfile", JSON.stringify(auth.currentUser));
             setUserInfo(auth.currentUser);
-            console.log(auth.currentUser);
             updateDoc(userDB, {
                 "name": changeName.current.value,
             });
