@@ -10,7 +10,6 @@ const FoodLists = styled.ul`
     width: 100%;
     height: 75%;
     display: grid;
-    grid-template-rows: repeat(16, 14%);
     grid-gap: 5px;
     overflow: scroll;
 `;
@@ -99,7 +98,7 @@ const StoreList = ({getLists, setPage}) => {
                         <StoreAddress> {data.road_address_name} </StoreAddress>
                         <StoreCallNumber> {data.phone} </StoreCallNumber>
                     </FoodStoreContents>
-                    <BookMark id={data.id} src={bookMark} alt="BookMark" onClick={addMyFoodList} ref={markLists} />
+                    <BookMark id={data.id} src={bookMarkBorder} alt="BookMark" onClick={addMyFoodList} ref={markLists} />
                 </FoodList>
             ))}
             {getLists !== undefined ? <PageNumber setPage={setPage} scrollTop={scrollTop} /> : null}
