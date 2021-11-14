@@ -12,16 +12,17 @@ const LayerFood = styled.aside`
 const FindFoodLists = () => {
     const [searchKeyword, setSearchKeyword] = useState();
     const [getLists, setGetLists] = useState();
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
-        kakaoSearch(searchKeyword, setGetLists);
-    }, [searchKeyword]);
+        kakaoSearch(searchKeyword, setGetLists, page);
+    }, [searchKeyword, page]);
 
     return (
         <>
             <LayerFood>
                 <SearchForm setSearchKeyword={setSearchKeyword}/>
-                <StoreList getLists={getLists}/>
+                <StoreList getLists={getLists} setPage={setPage} />
             </LayerFood>
         </>
     )
