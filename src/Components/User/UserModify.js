@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
+import { useRef } from 'react/cjs/react.development';
 import { ListContext } from 'Routers/Router';
+import {auth, updateProfile, getFirestore, updateDoc, doc} from 'services/firebase';
+import { isAuthorized } from 'services/store';
 import styled from 'styled-components';
 
 const LayerInfo = styled.section`
@@ -53,14 +56,34 @@ const UserBtn = styled.button`
 `;
 
 const UserModify = () => {
-    const {userInfo} = useContext(ListContext);
+    const {userInfo, setUserInfo} = useContext(ListContext);
+    const changeName = useRef(null);
+
+    const handleChangeName = async (evt) => {
+        evt.preventDefault();
+
+        const db = getFirestore();
+        const currentName = userInfo.displayName;
+        const userDB = doc(db, "user", currentName);
+
+        await updateProfile(auth.currentUser, {
+            displayName: changeName.current.value,
+        }).then(() => {
+            isAuthorized.removeProfile();
+            isAuthorized.setSessionStorage("userProfile", JSON.stringify(auth.currentUser));
+            setUserInfo(auth.currentUser);
+            updateDoc(userDB, {
+                "name": changeName.current.value,
+            });
+        });
+    }
 
     return (
         <LayerInfo>
             <InfoTitle> 내 정보 수정 </InfoTitle>
-            <UserForm>
+            <UserForm onSubmit={handleChangeName}>
                 <Label> 이름 </Label>
-                <UserInput type="text" placeholder={userInfo.displayName} />
+                <UserInput type="text" placeholder={userInfo.displayName} ref={changeName} />
                 <Label> 이메일 주소 </Label>
                 <UserInput type="email" value={userInfo.email} disabled />
                 <UserBtn type="submit"> 완료 </UserBtn>
