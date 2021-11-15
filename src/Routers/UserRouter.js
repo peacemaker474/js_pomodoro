@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import {Route, Link, Switch} from 'react-router-dom';
+import { ListContext } from './Router';
 import UserInformaiton from 'Components/User/UserInformation';
 import UserModify from 'Components/User/UserModify';
-import { ListContext } from './Router';
 import Header from 'Components/User/Header';
 import ChangePwd from 'Components/User/ChangePwd';
+import UserDelete from 'Components/User/UserDelete';
 
 const Container = styled.div`
     width: 100vw;
@@ -75,6 +76,7 @@ const UserRouter = () => {
                         <Route path={`/user/${userInfo?.uid}/overview`} exact component={UserInformaiton} />
                         <Route path={`/user/${userInfo?.uid}/modify`} exact component={UserModify} />
                         <Route path={`/user/${userInfo?.uid}/changepwd`} exact component={ChangePwd} />
+                        <Route path={`/user/${userInfo?.uid}/removeid`} exact component={UserDelete} />
                     </Switch>
                 </Wrapper>
             </Container>

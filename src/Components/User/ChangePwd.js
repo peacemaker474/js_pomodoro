@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
+import { auth, updatePassword, signInWithEmailAndPassword } from 'services/firebase';
+import { regex } from 'services/store';
+import { isEmpty } from 'lodash';
+import { ListContext } from 'Routers/Router';
 
 const LayerInfo = styled.section`
     width: 70%;
@@ -47,14 +51,45 @@ const UserBtn = styled.button`
 `;
 
 const ChangePwd = () => {
+    const { userInfo } = useContext(ListContext);
+    const currentPwd = useRef(null);
+    const changePwd = useRef(null);
+    const rePwd = useRef(null);
+
+    const handleChangePwd = evt => {
+        evt.preventDefault();
+        const user = auth.currentUser;
+        signInWithEmailAndPassword(auth, userInfo.email, currentPwd.current.value)
+        .then(() => {
+            if (isEmpty(changePwd.current.value) || !regex.password.test(changePwd.current.value)) {
+                alert("8자리 이상의 영문, 숫자, 특수문자가 반드시 1개라도 포함되어야 합니다.");
+                changePwd.current.value = "";
+                changePwd.current.focus();
+                return ;
+            }
+            if (changePwd.current.value !== rePwd.current.value) {
+                alert("비밀번호가 서로 일치하지 않습니다. 다시 입력해주세요.");
+                rePwd.current.value = "";
+                rePwd.current.focus();
+                return ;
+            } else {
+                updatePassword(user, changePwd.current.value)
+                .then(() => console.log("성공"))
+                .catch(() => console.log("실패"))
+            }
+        })
+        .catch(() => {
+            console.log("실패");
+        })
+    }
 
     return (
         <LayerInfo>
             <InfoTitle> 비밀번호 변경하기 </InfoTitle>
-            <UserForm>
-                <UserInput type="password" placeholder="현재 비밀번호" />
-                <UserInput type="password" placeholder="새 비밀번호" />
-                <UserInput type="password" placeholder="새 비밀번호 확인" />
+            <UserForm onSubmit={handleChangePwd}>
+                <UserInput type="password" placeholder="현재 비밀번호" ref={currentPwd} />
+                <UserInput type="password" placeholder="새 비밀번호" ref={changePwd} />
+                <UserInput type="password" placeholder="새 비밀번호 확인" ref={rePwd} />
                 <UserBtn type="submit"> 확인 </UserBtn>
             </UserForm>
         </LayerInfo>

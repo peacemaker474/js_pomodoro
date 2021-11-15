@@ -153,7 +153,7 @@ const Sign = () => {
             try {
                 const db = getFirestore();
                 // 데이터베이스에 추가하는 부분 (이름과 이메일)
-                await setDoc(doc(db, "user", check_name.current.value), {
+                await setDoc(doc(db, "user", check_email.current.value), {
                     name: check_name.current.value,
                     email: check_email.current.value,
                 });
