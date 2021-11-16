@@ -6,6 +6,7 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
+  updatePassword,
 } from "firebase/auth";
 import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, arrayUnion} from "firebase/firestore";
 
@@ -37,6 +38,7 @@ export {
   updateDoc,
   updateProfile,
   arrayUnion,
+  updatePassword,
 };
 
 export default app;
