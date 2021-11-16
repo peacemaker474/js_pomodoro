@@ -60,8 +60,6 @@ function ListItem({ data, index, getLists }) {
   const { userInfo } = useContext(ListContext);
   const [isCheck, setIsCheck] = useState(false);
 
-  console.log(isCheck);
-
   const handleZoomMark = (evt) => {
     console.log(evt.target.id);
   };
@@ -77,7 +75,6 @@ function ListItem({ data, index, getLists }) {
         updateDoc(getUserDB, {
           lists: arrayUnion(data),
         });
-        console.log("저장되었습니다!");
       }
     });
   };
@@ -94,7 +91,6 @@ function ListItem({ data, index, getLists }) {
         updateDoc(getUserDB, {
           lists: arrayRemove(data.data().lists[i]),
         });
-        console.log("삭제되었습니다!");
       }
     });
   };
