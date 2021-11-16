@@ -63,8 +63,7 @@ const UserModify = () => {
         evt.preventDefault();
 
         const db = getFirestore();
-        const currentName = userInfo.displayName;
-        const userDB = doc(db, "user", currentName);
+        const userDB = doc(db, "user", userInfo.email);
 
         await updateProfile(auth.currentUser, {
             displayName: changeName.current.value,
