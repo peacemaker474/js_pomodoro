@@ -20,6 +20,8 @@ export default () => {
   const [userInfo, setUserInfo] = useState();
   // 회원가입 성공 유무를 확인
   const [checkSign, setCheckSign] = useState(false);
+  // 계정 삭제 유무를 확인
+  const [checkDelete, setCheckDelete] = useState(false);
 
   // 컴포넌트가 렌더링이 됐을 때, 한번만 데이터를 받아오면 되기 때문에 useEffect를 사용
   useEffect(() => {
@@ -32,13 +34,14 @@ export default () => {
 
   useEffect(() => {
     getEmailLists().then(data => setEmailData(data));
-  }, [checkSign]);
+  }, [checkSign, checkDelete]);
 
   const store = {
     emailData,
     setUserInfo,
     userInfo,
     setCheckSign,
+    setCheckDelete
   };
 
   return (
