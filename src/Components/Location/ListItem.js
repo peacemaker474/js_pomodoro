@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { getFirestore, doc, arrayUnion, updateDoc } from "services/firebase";
 import { getDoc, arrayRemove } from "firebase/firestore";
@@ -64,9 +64,27 @@ function ListItem({ data, index, getLists }) {
     console.log(evt.target.id);
   };
 
+  const checkMyFoodList = async () => {
+    const db = getFirestore();
+    const getUserDB = doc(db, "user", userInfo.displayName);
+    const userData = await getDoc(getUserDB);
+    if (userData.data().lists !== undefined) {
+      Object.keys(userData.data().lists).forEach((i) => {
+        if (userData.data().lists[i].id === data.id) {
+          setIsCheck(true);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log("useEffect");
+    checkMyFoodList();
+  }, []);
+
   const addMyFoodList = async (evt) => {
     const db = getFirestore();
-    setIsCheck(!isCheck);
+    setIsCheck(true);
 
     const getUserDB = doc(db, "user", userInfo.displayName);
 
