@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import ListItem from "./ListItem";
+import PageNumber from "./StorePagination";
 
 const FoodLists = styled.ul`
   width: 100%;
@@ -11,23 +12,22 @@ const FoodLists = styled.ul`
 `;
 
 const StoreList = ({ getLists, setPage }) => {
-  //   const markLists = useRef(getLists && getLists.map(() => React.createRef()));
-  //   const scrollTop = useRef(null);
-  //   const { userInfo } = useContext(ListContext);
-  console.log("렌더링?");
+  const scrollTop = useRef(null);
 
+  const handleRequestPage = (evt) => {
+    setPage(parseInt(evt.target.id));
+    scrollTop.current.scrollTo(0, scrollTop.current.pageYOffset);
+  };
   return (
-    <FoodLists>
+    <FoodLists ref={scrollTop}>
       {getLists &&
         getLists.map((data, index) => (
-          <ListItem
-            key={data.id}
-            data={data}
-            index={index}
-            getLists={getLists}
-          ></ListItem>
+          <ListItem key={data.id} itemData={data} index={index}></ListItem>
         ))}
-      {/* {getLists !== undefined ? <PageNumber setPage={setPage} scrollTop={scrollTop} /> : null} */}
+
+      {getLists !== undefined ? (
+        <PageNumber handleRequestPage={handleRequestPage} />
+      ) : null}
     </FoodLists>
   );
 };
