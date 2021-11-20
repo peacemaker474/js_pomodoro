@@ -56,7 +56,7 @@ const BookMark = styled.img`
 `;
 
 function ListItem({ data, index, getLists }) {
-  const markLists = useRef(getLists && getLists.map(() => React.createRef()));
+  const markLists = useRef(null);
   const { userInfo } = useContext(ListContext);
   const [isCheck, setIsCheck] = useState(false);
 
@@ -66,7 +66,7 @@ function ListItem({ data, index, getLists }) {
 
   const checkMyFoodList = async () => {
     const db = getFirestore();
-    const getUserDB = doc(db, "user", userInfo.displayName);
+    const getUserDB = doc(db, "user", userInfo.email);
     const userData = await getDoc(getUserDB);
     if (userData.data().lists !== undefined) {
       Object.keys(userData.data().lists).forEach((i) => {
@@ -84,9 +84,10 @@ function ListItem({ data, index, getLists }) {
 
   const addMyFoodList = async (evt) => {
     const db = getFirestore();
+    console.log(markLists.current);
     setIsCheck(true);
 
-    const getUserDB = doc(db, "user", userInfo.displayName);
+    const getUserDB = doc(db, "user", userInfo.email);
 
     await getLists.forEach((data) => {
       if (data.id === evt.target.id) {
@@ -101,7 +102,7 @@ function ListItem({ data, index, getLists }) {
     const db = getFirestore();
     setIsCheck(!isCheck);
 
-    const getUserDB = doc(db, "user", userInfo.displayName);
+    const getUserDB = doc(db, "user", userInfo.email);
     const data = await getDoc(getUserDB);
 
     Object.keys(data.data().lists).forEach((i) => {

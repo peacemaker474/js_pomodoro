@@ -14,13 +14,12 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 2.9rem;
+    font-size: 2.4rem;
     width: 80%;
     margin: 20px auto;
-    text-align: center;
 `;
 
-const Text = styled.p`
+const DeleteText = styled.p`
     font-size: 1.8rem;
     width: 80%;
     margin: 0 auto;
@@ -30,12 +29,13 @@ const RemoveBtn = styled.button`
     all: unset;
     width: 80px;
     height: 30px;
-    font-size: 1.8rem;
-    border: 1px solid black;
+    font-size: 1.6rem;
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
-    color: orange;
+    background-color: #FACAC0;
+    margin: 20px 0 0 100px;
+    align-self: flex-start;
 `;
 
 const UserDelete = () => {
@@ -47,7 +47,7 @@ const UserDelete = () => {
         const db = getFirestore();
         const user = auth.currentUser;
 
-        if(window.confirm("정말로 탈퇴를 하시겠습니까?")){
+        if(window.confirm("MyFood에서 계정을 삭제하시겠습니까?")){
             await deleteUser(user)
             .then(() => {
                 deleteDoc(doc(db, "user", userInfo.email));
@@ -64,10 +64,10 @@ const UserDelete = () => {
     return (
         <Container>
             <Title> 회원 탈퇴 </Title>
-            <Text> 
-                지금까지 저희 맛집 리스트를 이용해주셔서 정말 감사합니다.
-                떠나기 전 마지막으로, 다시 한 번만 생각해주시면 정말 감사하겠습니다.
-            </Text>
+            <DeleteText> 
+                무엇인가를 채우고 싶은데, 채우고 싶은 문구가 마땅히 없네요.
+                아니면 회원 탈퇴 부분을 따로 만들까 생각중입니다.
+            </DeleteText>
             <RemoveBtn type="submit" onClick={handleRemoveId}> 회원탈퇴 </RemoveBtn>
         </Container>
     )
