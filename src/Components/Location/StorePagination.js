@@ -27,10 +27,7 @@ const PageButton = styled.button`
   font-size: 1.8rem;
   text-align: center;
   cursor: pointer;
-  color: ${({ color }) => {
-    console.log(color[0], color[1]);
-    return color[0] === color[1] ? `red` : `black`;
-  }};
+  color: ${(props) => (props.check === props.id ? "red" : "black")};
 `;
 
 const PageNumber = ({ handleRequestPage }) => {
@@ -49,7 +46,7 @@ const PageNumber = ({ handleRequestPage }) => {
           <PageList key={page + index}>
             <PageButton
               id={page}
-              color={[page, isClick]}
+              check={isClick}
               type="button"
               onClick={onClick}
             >
