@@ -5,8 +5,7 @@ import { auth, signInWithEmailAndPassword } from "services/firebase";
 import { ListContext } from "Routers/Router";
 import FindModal from "./FindPwdModal";
 import mainImage from "assets/mainImage.jpg";
-import { isEmpty } from "lodash";
-import { regex, isAuthorized } from "services/store";
+import { isAuthorized } from "services/store";
 
 const Container = styled.main`
   width: 100vw;
@@ -99,76 +98,26 @@ const FindPwd = styled.button`
 
 const Login = () => {
   const [findPwdModal, setFindPwdModal] = useState(false);
-  const [vaildLogin, setVaildLogin] = useState(false);
-  const [vaildPassword, setVaildPassword] = useState(false);
+  const { setUserInfo } = useContext(ListContext);
   const email = useRef(null);
   const password = useRef(null);
-  const { emailData, setUserInfo } = useContext(ListContext);
   const history = useHistory();
-
-  // 이메일이 있는 지 없는지 확인하는 함수
-  const checkEmail = () => {
-    const findEmail = emailData.filter((item) => item === email.current.value);
-    return findEmail;
-  };
-  
-  // 이메일을 기준으로 유저에 대한 정보를 저장하는 함수
-  // const getUserInfo = () => {
-  //   userInfo.forEach((info) => {
-  //     if (info.email === email.current.value) {
-  //       setUserInfo(info);
-  //       sessionStorage.setItem("isAuthorized", true);
-  //       return;
-  //     }
-  //   });
-  // };
 
   const handleFindPwdModal = (evt) => {
     evt.preventDefault();
     setFindPwdModal(!findPwdModal);
   };
 
+  const resetValue = item => {
+    item.current.value = "";
+    item.current.focus();
+  }
+
   const onSubmit = async (evt) => {
     evt.preventDefault();
-    /*
-        이메일과 비밀번호 형식 확인하고,
-        이메일이 존재하는지 확인
-    */
-    if (
-      isEmpty(email.current.value) &&
-      !regex.email.test(email.current.value)
-    ) {
-      email.current.value = "";
-      email.current.focus();
-      alert("올바른 이메일 형식을 입력하지 않았습니다.");
-      return;
-    }
-    if (checkEmail().length !== 1) {
-      email.current.value = "";
-      email.current.focus();
-      alert("해당 이메일은 존재하지 않습니다.");
-      return;
-    }
-    if (
-      isEmpty(password.current.value) &&
-      regex.password.test(password.current.value)
-    ) {
-      password.current.value = "";
-      password.current.focus();
-      alert("비밀번호는 특수문자를 포함한 8자리 이상입니다.");
-      return;
-    } else {
-      setVaildLogin(true);
-      setVaildPassword(true);
-    }
 
-    if (vaildLogin && vaildPassword) {
       try {
-        signInWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        )
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
           .then((userCredential) => {
             setUserInfo(userCredential.user);
             isAuthorized.setSessionStorage("isAuthorized", true);
@@ -176,18 +125,32 @@ const Login = () => {
             alert("로그인을 하였습니다.");
             history.push("/home");
           })
-          .catch((err) => {
-            console.log(err);
-            password.current.value = "";
-            password.current.focus();
-            alert("비밀번호가 틀렸습니다.");
-            setVaildPassword(false);
+          .catch((err) => { // 함수 형태로 만들어서 체크를 할 지 아니면 여기서 할 지 고민
+            switch (err.code) {
+              case "auth/invalid-email":
+                resetValue(email);
+                alert("이메일을 입력하세요.");
+                break;
+              case "auth/internal-error":
+                resetValue(password);
+                alert("비밀번호를 입력하세요.");
+                break;
+              case "auth/wrong-password":
+                resetValue(password);
+                alert("비밀번호를 잘못 입력하셨습니다.");
+                break;
+              case "auth/user-not-found":
+                resetValue(email);
+                alert("해당 이메일은 존재하지 않습니다.");
+                break;
+              default:
+                console.log(err);
+            }
           });
       } catch (err) {
         console.log(err);
         alert("서버와의 통신이 올바르지 않습니다.");
       }
-    }
   };
 
   return (
