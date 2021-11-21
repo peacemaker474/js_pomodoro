@@ -1,7 +1,6 @@
-import React, {useRef, useContext} from 'react';
+import React, {useRef} from 'react';
 import { useHistory } from 'react-router-dom';
 import { auth, createUserWithEmailAndPassword, setDoc, getFirestore, doc, updateProfile } from 'services/firebase';
-import { ListContext } from 'Routers/Router';
 import styled from 'styled-components';
 import isEmpty from 'lodash';
 import { regex } from 'services/store';
@@ -97,7 +96,6 @@ const Sign = () => {
     const password = useRef(null);
     const password2 = useRef(null);
     const history = useHistory();
-    const { setCheckSign } = useContext(ListContext);
     const db = getFirestore();
     
     const onSubmit = async (evt) => {
@@ -146,7 +144,6 @@ const Sign = () => {
                     displayName: name.current.value,
                 })
                 .then(() => {
-                    setCheckSign(true);
                     history.push("/");
                 });
             });

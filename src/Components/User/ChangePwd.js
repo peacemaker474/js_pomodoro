@@ -1,9 +1,9 @@
 import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { auth, updatePassword, signInWithEmailAndPassword } from 'services/firebase';
-import { regex } from 'services/store';
-import { isEmpty } from 'lodash';
+import { isAuthorized, regex } from 'services/store';
 import { ListContext } from 'Routers/Router';
+import { useHistory } from 'react-router';
 
 const LayerInfo = styled.section`
     width: 70%;
@@ -52,34 +52,53 @@ const UserBtn = styled.button`
 
 const ChangePwd = () => {
     const { userInfo } = useContext(ListContext);
-    const currentPwd = useRef(null);
-    const changePwd = useRef(null);
-    const rePwd = useRef(null);
+    const oldPassword = useRef(null);
+    const newPassword = useRef(null);
+    const confirmPassword = useRef(null);
+    const history = useHistory();
 
     const handleChangePwd = evt => {
         evt.preventDefault();
         const user = auth.currentUser;
-        signInWithEmailAndPassword(auth, userInfo.email, currentPwd.current.value)
+        signInWithEmailAndPassword(auth, userInfo.email, oldPassword.current.value)
         .then(() => {
-            if (isEmpty(changePwd.current.value) || !regex.password.test(changePwd.current.value)) {
+            if (!regex.password.test(newPassword.current.value)){
+                newPassword.current.value = "";
+                newPassword.current.focus();
                 alert("8자리 이상의 영문, 숫자, 특수문자가 반드시 1개라도 포함되어야 합니다.");
-                changePwd.current.value = "";
-                changePwd.current.focus();
                 return ;
             }
-            if (changePwd.current.value !== rePwd.current.value) {
+            if (newPassword.current.value !== confirmPassword.current.value) {
+                confirmPassword.current.value = "";
+                confirmPassword.current.focus();
                 alert("비밀번호가 서로 일치하지 않습니다. 다시 입력해주세요.");
-                rePwd.current.value = "";
-                rePwd.current.focus();
                 return ;
             } else {
-                updatePassword(user, changePwd.current.value)
-                .then(() => console.log("성공"))
-                .catch(() => console.log("실패"))
+                updatePassword(user, newPassword.current.value)
+                .then(() => {
+                    isAuthorized.setSessionStorage("isAuthorized", false);
+                    isAuthorized.removeProfile();
+                    history.push("/");
+                })
+                .catch((err) => console.log(err))
             }
         })
-        .catch(() => {
-            console.log("실패");
+        .catch((err) => {
+            switch (err.code) {
+                case "auth/internal-error":
+                    oldPassword.current.value = "";
+                    oldPassword.current.focus();
+                    alert("8자리 이상의 영문, 숫자, 특수문자가 반드시 1개라도 포함되어야 합니다.");
+                    break;
+                case "auth/wrong-password":
+                    oldPassword.current.value = "";
+                    oldPassword.current.focus();
+                    alert("현재 비밀번호와 맞지 않습니다.");
+                    break;
+                default:
+                    console.log(err);
+                    break;
+            }
         })
     }
 
@@ -87,9 +106,9 @@ const ChangePwd = () => {
         <LayerInfo>
             <InfoTitle> 비밀번호 변경하기 </InfoTitle>
             <UserForm onSubmit={handleChangePwd}>
-                <UserInput type="password" placeholder="현재 비밀번호" ref={currentPwd} />
-                <UserInput type="password" placeholder="새 비밀번호" ref={changePwd} />
-                <UserInput type="password" placeholder="새 비밀번호 확인" ref={rePwd} />
+                <UserInput type="password" placeholder="현재 비밀번호" ref={oldPassword} />
+                <UserInput type="password" placeholder="새 비밀번호" ref={newPassword} />
+                <UserInput type="password" placeholder="새 비밀번호 확인" ref={confirmPassword} />
                 <UserBtn type="submit"> 확인 </UserBtn>
             </UserForm>
         </LayerInfo>

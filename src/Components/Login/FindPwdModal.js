@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 import { regex } from 'services/store';
@@ -64,7 +64,6 @@ const CloseButton = styled.button`
 `;
 
 const FindModal = ({setFindPwdModal}) => {
-    const [vaildEmail, setVaildEmail] = useState(false);
     const email = useRef(null);
 
     const handleCloseModal = evt => {
@@ -79,18 +78,25 @@ const FindModal = ({setFindPwdModal}) => {
             alert("이메일 주소를 올바르게 입력하세요");
             email.current.value = "";
             email.current.focus();
-        } else {
-            setVaildEmail(true);
+            return ;
         }
 
-        if (vaildEmail) {
-            sendPasswordResetEmail(auth, email.current.value)
-            .then(() => {
-                alert("해당 이메일로 비밀번호 재설정 메일을 보냈습니다. 이메일을 확인해주세요.");
-                setFindPwdModal(false);
-            })
-            .catch(err => console.log(err))
-        }
+        sendPasswordResetEmail(auth, email.current.value)
+        .then(() => {
+            alert("해당 이메일로 비밀번호 재설정 메일을 보냈습니다. 이메일을 확인해주세요.");
+            setFindPwdModal(false);
+        })
+        .catch(err => {
+            switch (err.code) {
+                case "auth/user-not-found":
+                    email.current.value = "";
+                    email.current.focus();
+                    alert("해당 이메일은 존재하지 않습니다.");
+                    break;
+                default:
+                    break;
+            }
+        })
     }
     return (
         <>

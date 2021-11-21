@@ -40,7 +40,7 @@ const RemoveBtn = styled.button`
 
 const UserDelete = () => {
     const history = useHistory();
-    const {userInfo, setCheckDelete} = useContext(ListContext);
+    const {userInfo} = useContext(ListContext);
 
     const handleRemoveId = async (evt) => {
         evt.preventDefault();
@@ -52,7 +52,6 @@ const UserDelete = () => {
             .then(() => {
                 deleteDoc(doc(db, "user", userInfo.email));
                 isAuthorized.setSessionStorage("isAuthorized", false);
-                setCheckDelete(true);
                 history.push("/");
             })
             .catch(() => {
