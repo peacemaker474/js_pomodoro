@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import reset from 'styled-reset';
+import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
     ${reset};                               // 전체 스타일에 대한 리셋
@@ -11,6 +11,11 @@ const GlobalStyle = createGlobalStyle`
     }
     html{
         font-size: 10px;
+    }
+    button{
+        border : none;
+        background-color : transparent;
+        cursor : pointer;
     }
 `;
 
