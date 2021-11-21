@@ -1,15 +1,15 @@
 import React, { createContext, useState, useEffect } from "react";
-import { 
-  BrowserRouter as Router, 
-  Route, 
-  Switch, 
-  Redirect 
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
 } from "react-router-dom";
 import {getUserData, isAuthorized} from "services/store";
 import Login from "Components/Login/Login";
 import Sign from "Components/Sign/Sign";
-import Location from "Components/Location/Location";
 import UserRouter from "./UserRouter";
+import Location from "Components/Location/Location";
 
 export const ListContext = createContext("");
 
@@ -22,7 +22,7 @@ export default () => {
     if (isAuthorized.getAuthorized() === "true") {
       setUserInfo(JSON.parse(isAuthorized.getProfile()));
     } else {
-      getUserData().then(data => setUserInfo(data));
+      getUserData().then((data) => setUserInfo(data));
     }
   }, []);
 
@@ -33,10 +33,14 @@ export default () => {
 
   return (
     <Router>
-      {isAuthorized.getAuthorized() === "true" ? <Redirect to="/home" /> : <Redirect to="/" />}
+      {isAuthorized.getAuthorized() === "true" ? (
+        <Redirect to="/home" />
+      ) : (
+        <Redirect to="/" />
+      )}
       <Switch>
         <ListContext.Provider value={store}>
-          <Route path="/" exact component={Login } />
+          <Route path="/" exact component={Login} />
           <Route path="/sign" exact component={Sign} />
           <Route path="/home" exact component={Location} />
           <Route path="/user/:id" component={UserRouter} />

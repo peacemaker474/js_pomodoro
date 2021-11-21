@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { getFirestore, doc, arrayUnion, updateDoc } from "services/firebase";
 import { getDoc, arrayRemove } from "firebase/firestore";
@@ -55,22 +55,22 @@ const BookMark = styled.img`
   z-index: 1;
 `;
 
-function ListItem({ data, index, getLists }) {
-  const markLists = useRef(null);
+function ListItem({ itemData, index }) {
   const { userInfo } = useContext(ListContext);
   const [isCheck, setIsCheck] = useState(false);
+  const db = getFirestore();
+  const getUserDB = doc(db, "user", userInfo.email);
 
   const handleZoomMark = (evt) => {
     console.log(evt.target.id);
   };
 
   const checkMyFoodList = async () => {
-    const db = getFirestore();
-    const getUserDB = doc(db, "user", userInfo.email);
     const userData = await getDoc(getUserDB);
+
     if (userData.data().lists !== undefined) {
       Object.keys(userData.data().lists).forEach((i) => {
-        if (userData.data().lists[i].id === data.id) {
+        if (userData.data().lists[i].id === itemData.id) {
           setIsCheck(true);
         }
       });
@@ -82,54 +82,44 @@ function ListItem({ data, index, getLists }) {
     checkMyFoodList();
   }, []);
 
-  const addMyFoodList = async (evt) => {
-    const db = getFirestore();
-    console.log(markLists.current);
+  const addMyFoodList = async () => {
     setIsCheck(true);
-
-    const getUserDB = doc(db, "user", userInfo.email);
-
-    await getLists.forEach((data) => {
-      if (data.id === evt.target.id) {
-        updateDoc(getUserDB, {
-          lists: arrayUnion(data),
-        });
-      }
+    await updateDoc(getUserDB, {
+      lists: arrayUnion(itemData),
     });
+    console.log("맛집 데이터 추가");
   };
 
   const delMyFoodList = async (evt) => {
-    const db = getFirestore();
-    setIsCheck(!isCheck);
+    setIsCheck(false);
 
-    const getUserDB = doc(db, "user", userInfo.email);
-    const data = await getDoc(getUserDB);
+    const userData = await getDoc(getUserDB);
 
-    Object.keys(data.data().lists).forEach((i) => {
-      if (data.data().lists[i].id === evt.target.id) {
+    Object.keys(userData.data().lists).forEach((i) => {
+      if (userData.data().lists[i].id === evt.target.id) {
         updateDoc(getUserDB, {
-          lists: arrayRemove(data.data().lists[i]),
+          lists: arrayRemove(userData.data().lists[i]),
         });
+        console.log("맛집 데이터 삭제");
       }
     });
   };
 
   return (
-    <FoodList key={data.id}>
+    <FoodList key={itemData.id}>
       <StoreIndex> {index} </StoreIndex>
       <FoodStoreContents>
         <StoreName onClick={handleZoomMark}>
-          <StoreLink> {data.place_name} </StoreLink>
+          <StoreLink> {itemData.place_name} </StoreLink>
         </StoreName>
-        <StoreAddress> {data.road_address_name} </StoreAddress>
-        <StoreCallNumber> {data.phone} </StoreCallNumber>
+        <StoreAddress> {itemData.road_address_name} </StoreAddress>
+        <StoreCallNumber> {itemData.phone} </StoreCallNumber>
       </FoodStoreContents>
       <BookMark
-        id={data.id}
+        id={itemData.id}
         src={isCheck ? bookMark : bookMarkBorder}
         alt="BookMark"
         onClick={isCheck ? delMyFoodList : addMyFoodList}
-        ref={markLists}
       />
     </FoodList>
   );
