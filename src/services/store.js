@@ -22,17 +22,17 @@ export const getUserData = async () => {
 };
 
 // 사용자 데이터에서 이메일만 모아서 따로 배열로 만드는 함수
-export const getEmailLists = async () => {
-    let emailLists = [];
+// export const getEmailLists = async () => {
+//     let emailLists = [];
 
-    await getUserData()
-    .then(userInfo => {
-        userInfo.forEach(info => {
-            emailLists.push(info.email);
-        });
-    });
-    return emailLists;
-};
+//     await getUserData()
+//     .then(userInfo => {
+//         userInfo.forEach(info => {
+//             emailLists.push(info.email);
+//         });
+//     });
+//     return emailLists;
+// };
 
 // 이름, 이메일, 암호 확인을 위한 정규표현식
 export const regex = {
