@@ -19,7 +19,7 @@ export const kakaoMap = () => {
   const container = document.getElementById("map");
   let options = {
     center: new kakao.maps.LatLng(37.566826, 126.9786567),
-    level: 3,
+    level: 2,
   };
   // 지도를 생성합니다
   const map = new kakao.maps.Map(container, options);
@@ -78,7 +78,16 @@ export const kakaoSearch = (search, setGetLists, page = 1) => {
     kakao.maps.event.addListener(markers[index], "mouseover", function () {
       // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
       infowindow.setContent(
-        `<div style="padding:5px;font-size:12px;"> ${place.place_name} </div>`
+          `<a href=${place.place_url} 
+            style="
+              display:block;
+              text-decoration:none;
+              color:black;
+              padding: 5px 0 0 5px;
+              font-size:1.1rem;
+            "> 
+              ${place.place_name} 
+            </a>`
       );
       infowindow.open(map, markers[index]);
     });

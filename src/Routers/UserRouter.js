@@ -20,7 +20,6 @@ const Wrapper = styled.section`
     display: flex;
 `;
 
-
 const UserRouter = () => {
     const {userInfo} = useContext(ListContext);
 
